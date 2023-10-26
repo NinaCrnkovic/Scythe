@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<VBox alignment="CENTER" spacing="20"   xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hr.algebra.scythe.controller.DiceRollController">
+    <Button fx:id="redPlayerRollDiceButton" text="Red Player Roll Dice" onAction="#rollRedDice" />
+    <Label fx:id="redPlayerResult" text="Red: 0" />
+
+    <Button fx:id="bluePlayerRollDiceButton" text="Blue Player Roll Dice" onAction="#rollBlueDice"  />
+    <Label fx:id="bluePlayerResult" text="Blue: 0" />
+</VBox>

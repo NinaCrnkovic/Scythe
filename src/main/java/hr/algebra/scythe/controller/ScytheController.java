@@ -1,12 +1,22 @@
 package hr.algebra.scythe.controller;
 
+import hr.algebra.scythe.model.Soldier;
 import hr.algebra.scythe.model.Player;
+import hr.algebra.scythe.util.BoardService;
+import hr.algebra.scythe.util.PlayerService;
+import hr.algebra.scythe.util.GameLogic;
+import hr.algebra.scythe.util.Constants;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.image.ImageView;
-import javafx.scene.image.Image;
-import java.util.Objects;
+import javafx.stage.Stage;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class ScytheController {
 
@@ -16,105 +26,97 @@ public class ScytheController {
     @FXML
     private GridPane gameBoard;
 
-    private static final int BOARD_SIZE = 6;
-    private Player playerRed;
-    private Player playerBlue;
-    private Player selectedPlayer;
-    private Player lastPlayerMoved = null; // New field to keep track of the last moved player
+    private Soldier selectedSoldier;
+    private Soldier lastSoldierMoved = null;
 
-    private final ImageView[][] boardImages = new ImageView[BOARD_SIZE][BOARD_SIZE];
+    private final PlayerService playerService = new PlayerService();
+    private BoardService boardService;
+    private Player currentPlayer;
+    private int movesMade;
 
-    // Image paths constants
-    private static final String IMAGE_PATH_TEMPLATE = "/hr/algebra/scythe/view/images/%s";
-    private static final String BACKGROUND_IMAGE = String.format(IMAGE_PATH_TEMPLATE, "background.jpg");
-    private static final String RED_PLAYER_IMAGE = String.format(IMAGE_PATH_TEMPLATE, "playerred.jpg");
-    private static final String BLUE_PLAYER_IMAGE = String.format(IMAGE_PATH_TEMPLATE, "playerblue.jpg");
+    private Set<Soldier> soldiersMoved = new HashSet<>();
+
+
 
     public void initialize() {
-        playerRed = new Player(Player.Color.RED, 0, 0);
-        playerBlue = new Player(Player.Color.BLUE, BOARD_SIZE - 1, BOARD_SIZE - 1);
+        playerService.initializePlayers();
 
-        setupBoard();
+        boardService = new BoardService(gameBoard, this::handleTileClick,
+                playerService.getPlayerRed(), playerService.getPlayerBlue());
+        boardService.setupBoard();
         borderPane.setFocusTraversable(true);
         borderPane.requestFocus();
-    }
+        currentPlayer = playerService.getPlayerRed();  // Crveni igrač započinje igru
+        movesMade = 0;
 
-    private void setupBoard() {
-        Image transparentImage = new Image(Objects.requireNonNull(getClass().getResource(BACKGROUND_IMAGE)).toExternalForm());
-        for (int i = 0; i < BOARD_SIZE; i++) {
-            for (int j = 0; j < BOARD_SIZE; j++) {
-                ImageView tileImageView = new ImageView(transparentImage);
-                tileImageView.setFitWidth(150);
-                tileImageView.setFitHeight(150);
-
-                final int finalI = i;
-                final int finalJ = j;
-                tileImageView.setOnMouseClicked(event -> handleTileClick(finalI, finalJ));
-
-                gameBoard.add(tileImageView, i, j);
-                boardImages[i][j] = tileImageView;
-            }
-        }
-
-        updateBoard();
-    }
-
-    private Image getPlayerImage(String color) {
-        return new Image(Objects.requireNonNull(getClass().getResource(
-                color.equals("red") ? RED_PLAYER_IMAGE : BLUE_PLAYER_IMAGE
-        )).toExternalForm());
     }
 
     private void handleTileClick(int x, int y) {
-        if (selectedPlayer == null) {
-            if (x == playerRed.getX() && y == playerRed.getY() && lastPlayerMoved != playerRed) {
-                selectedPlayer = playerRed;
-            } else if (x == playerBlue.getX() && y == playerBlue.getY() && lastPlayerMoved != playerBlue) {
-                selectedPlayer = playerBlue;
+        if (selectedSoldier == null) {
+            selectedSoldier = playerService.getSelectedSoldier(x, y, lastSoldierMoved);
+            if (selectedSoldier != null && selectedSoldier.getColor() != currentPlayer.getColor()) {
+                // The player is trying to move an opponent's soldier.
+                selectedSoldier = null;
+                return;
             }
         } else {
-            if (isAdjacent(selectedPlayer, x, y)) {
-                moveSelectedPlayerTo(x, y);
-                lastPlayerMoved = selectedPlayer; // After moving the player, update the last moved player
-            }
-            selectedPlayer = null; // Reset the selection after the move attempt
-        }
-        updateBoard();
-    }
+            if (GameLogic.isAdjacent(selectedSoldier, x, y)) {
+                if (!playerService.isTileOccupiedBySameColor(currentPlayer, x, y)) {
+                    if (playerService.isTileOccupiedByOpponent(currentPlayer, x, y)) {
+                        System.out.println("Battle Initiated!");  // Placeholder for battle logic
+                        boardService.setBattleImage(x, y);
+                        openDiceRollWindow();
+                    }
+                    moveSelectedSoldierTo(x, y);
+                    lastSoldierMoved = selectedSoldier;
+                    soldiersMoved.add(selectedSoldier);
 
-    private boolean isAdjacent(Player player, int x, int y) {
-        int dx = x - player.getX();
-        int dy = y - player.getY();
-
-        return (Math.abs(dx) == 1 && dy == 0) || (Math.abs(dy) == 1 && dx == 0);
-    }
-
-    private void moveSelectedPlayerTo(int x, int y) {
-        if (isValidMove(x, y)) {
-            selectedPlayer.setX(x);
-            selectedPlayer.setY(y);
-        }
-    }
-
-    private boolean isValidMove(int x, int y) {
-        return x >= 0 && x < BOARD_SIZE && y >= 0 && y < BOARD_SIZE;
-    }
-
-    private void updateBoard() {
-        Image background = new Image(Objects.requireNonNull(getClass().getResource(BACKGROUND_IMAGE)).toExternalForm());
-
-        for (int i = 0; i < BOARD_SIZE; i++) {
-            for (int j = 0; j < BOARD_SIZE; j++) {
-                boardImages[i][j].setImage(background);  // Postavljanje svih na pozadinsku sliku
-
-                if (i == playerRed.getX() && j == playerRed.getY()) {
-                    boardImages[i][j].setImage(getPlayerImage("red"));
-                } else if (i == playerBlue.getX() && j == playerBlue.getY()) {
-                    boardImages[i][j].setImage(getPlayerImage("blue"));
+                    if (soldiersMoved.size() == 3) {
+                        switchPlayer();
+                    }
                 }
+                selectedSoldier = null;
             }
         }
+        boardService.updateBoard();
     }
+
+
+
+    private void moveSelectedSoldierTo(int x, int y) {
+        if (GameLogic.isValidMove(x, y, Constants.BOARD_SIZE)) {
+            selectedSoldier.setX(x);
+            selectedSoldier.setY(y);
+        }
+    }
+
+    private void switchPlayer() {
+        if (currentPlayer == playerService.getPlayerRed()) {
+            currentPlayer = playerService.getPlayerBlue();
+        } else {
+            currentPlayer = playerService.getPlayerRed();
+        }
+        soldiersMoved.clear();  // Clear the set when switching players
+    }
+
+    public void openDiceRollWindow() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/hr/algebra/scythe/view/diceRoll.fxml"));
+            Parent root = (Parent) fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.setTitle("Roll Dice");
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
 }
+
+
+
 
 

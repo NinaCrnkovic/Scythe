@@ -1,25 +1,41 @@
 package hr.algebra.scythe.model;
 
-
+import hr.algebra.scythe.util.Constants;
+import javafx.scene.image.Image;
+import java.util.Objects;
 
 public class Tile {
 
-    enum TileType {
-        PLAIN, // Ravnice
-        FOREST, // Šuma
-        VILLAGE, // Selo
-        HILL; // Brda
-    }
-    private TileType tileType;
-    private Unit unit;
-    private Resource resource;
+    public enum Type {
+        VILLAGE(Constants.VILLAGE_IMAGE_PATH),
+        FOREST(Constants.FOREST_IMAGE_PATH),
+        MOUNTAIN(Constants.MOUNTAIN_IMAGE_PATH);
 
-    public Tile() {
+        private final String imagePath;
+        private Image image;
+
+        Type(String imagePath) {
+            this.imagePath = imagePath;
+            this.image = new Image(Objects.requireNonNull(getClass().getResource(imagePath)).toExternalForm());
+        }
+
+        public Image getImage() {
+            return image;
+        }
     }
 
-    public Tile(TileType tileType, Unit unit, Resource resource) {
-        this.tileType = tileType;
-        this.unit = unit;
-        this.resource = resource;
+    private final Type type;
+
+    public Tile(Type type) {
+        this.type = type;
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    public Image getImage() {
+        return type.getImage();
     }
 }
+
