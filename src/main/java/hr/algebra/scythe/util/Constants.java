@@ -9,6 +9,10 @@ public class Constants {
     public static final String FOREST_IMAGE_PATH = "/hr/algebra/scythe/view/images/wood.png";
     public static final String MOUNTAIN_IMAGE_PATH = "/hr/algebra/scythe/view/images/metal.png";
 
+    public static final String FOOD_ICON_PATH = "/hr/algebra/scythe/view/images/foodIcon.png";
+    public static final String WOOD_ICON_PATH = "/hr/algebra/scythe/view/images/woodIcon.png";
+    public static final String METAL_ICON_PATH = "/hr/algebra/scythe/view/images/metalIcon.png";
+
     public static final String BATTLE_IMAGE_PATH = "/hr/algebra/scythe/view/images/fight.png";
 
 

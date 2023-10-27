@@ -9,7 +9,17 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 
-<BorderPane fx:id="borderPane" prefHeight="750.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hr.algebra.scythe.controller.ScytheController">
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<BorderPane fx:id="borderPane"
+            prefHeight="770.0"
+            prefWidth="1100.0"
+            xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            stylesheets="@style/scythe.css"
+            fx:controller="hr.algebra.scythe.controller.ScytheController">
    <center>
       <GridPane fx:id="gameBoard" alignment="CENTER" minHeight="0.0" minWidth="0.0" BorderPane.alignment="CENTER">
         <columnConstraints>
@@ -51,7 +61,13 @@
         </menus>
       </MenuBar>
    </top>
-   <left>
-      <StackPane prefHeight="724.0" prefWidth="238.0" BorderPane.alignment="CENTER" />
-   </left>
+    <left>
+
+            <GridPane fx:id="allPlayersGrid" prefHeight="724.0" prefWidth="238.0" BorderPane.alignment="CENTER" hgap="10" vgap="10">
+
+            </GridPane>
+
+
+    </left>
+
 </BorderPane>

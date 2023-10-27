@@ -1,14 +1,20 @@
 package hr.algebra.scythe.model;
 
 import hr.algebra.scythe.util.Constants;
+
 import javafx.scene.image.Image;
 import java.util.Objects;
 
-public class Soldier {
 
+
+public class Soldier {
 
     private final Image image;
     private int x, y;
+
+    private int wood;
+    private int metal;
+    private int food;
 
     private final Player.Color color;
 
@@ -19,6 +25,9 @@ public class Soldier {
         this.x = x;
         this.y = y;
     }
+
+
+
 
     public Image getImage() {
         return image;
@@ -44,8 +53,44 @@ public class Soldier {
         this.y = y;
     }
 
+    public int getWood() {
+        return wood;
+    }
+
     public boolean isAt(int x, int y) {
         return this.x == x && this.y == y;
+    }
+
+    public void addWood(int amount) {
+        this.wood += amount;
+    }
+
+    public void removeWood(int amount) {
+        this.wood = Math.max(0, this.wood - amount); // Ensure we don't go negative
+    }
+
+    public int getMetal() {
+        return metal;
+    }
+
+    public void addMetal(int amount) {
+        this.metal += amount;
+    }
+
+    public void removeMetal(int amount) {
+        this.metal = Math.max(0, this.metal - amount); // Ensure we don't go negative
+    }
+
+    public int getFood() {
+        return food;
+    }
+
+    public void addFood(int amount) {
+        this.food += amount;
+    }
+
+    public void removeFood(int amount) {
+        this.food = Math.max(0, this.food - amount); // Ensure we don't go negative
     }
 
     @Override
@@ -63,4 +108,5 @@ public class Soldier {
         return Objects.hash(image, x, y);
     }
 }
+
 

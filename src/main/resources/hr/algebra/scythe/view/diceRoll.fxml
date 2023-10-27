@@ -7,10 +7,21 @@
 <?import javafx.scene.layout.*?>
 
 
-<VBox alignment="CENTER" spacing="20"   xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hr.algebra.scythe.controller.DiceRollController">
-    <Button fx:id="redPlayerRollDiceButton" text="Red Player Roll Dice" onAction="#rollRedDice" />
+<VBox alignment="CENTER"
+      spacing="20" prefHeight="300.0"
+      prefWidth="300.0"
+      xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="hr.algebra.scythe.controller.DiceRollController"
+      stylesheets="@style/scythe.css"
+      styleClass="vbox-background"
+>
+
+    <Button fx:id="redPlayerRollDiceButton" text="Red Player Roll Dice" onAction="#rollRedDice" styleClass="red-button" />
     <Label fx:id="redPlayerResult" text="Red: 0" />
 
-    <Button fx:id="bluePlayerRollDiceButton" text="Blue Player Roll Dice" onAction="#rollBlueDice"  />
+    <Button fx:id="bluePlayerRollDiceButton" text="Blue Player Roll Dice" onAction="#rollBlueDice" styleClass="blue-button" />
     <Label fx:id="bluePlayerResult" text="Blue: 0" />
+
+    <Label fx:id="gameResult" text="" />
 </VBox>

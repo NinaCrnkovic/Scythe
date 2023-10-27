@@ -1,22 +1,28 @@
-/* Stil za glavni GridPane */
-.game-board {
-    -fx-background-color: #f5f5f5; /* Siva pozadinska boja */
-    -fx-padding: 10px;            /* Prostor između ruba GridPane-a i njegovog sadržaja */
-    -fx-hgap: 5px;                /* Horizontalni razmak između ćelija */
-    -fx-vgap: 5px;                /* Vertikalni razmak između ćelija */
-    -fx-border-color: #e0e0e0;   /* Boja okvira oko GridPane-a */
-    -fx-border-width: 2px;       /* Debljina okvira */
+
+.red-button {
+    -fx-background-color: red;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
 }
 
-/* Stil za svaku ćeliju unutar GridPane-a */
-.game-board-cell {
-    -fx-background-color: #ffffff; /* Bijela pozadinska boja ćelije */
-    -fx-border-color: #c0c0c0;    /* Boja okvira oko svake ćelije */
-    -fx-border-width: 1px;        /* Debljina okvira */
+
+.blue-button {
+    -fx-background-color: blue;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+
 }
 
-/* Stil za slike unutar ćelija */
-.game-board-cell-image {
-    -fx-fit-width: 100%;          /* Širina slike će biti prilagođena širini ćelije */
-    -fx-fit-height: 100%;         /* Visina slike će biti prilagođena visini ćelije */
+.red-player {
+    -fx-text-fill: red;
+    -fx-font-weight: bold;
+    -fx-font-size: 18px;
 }
+
+.blue-player {
+    -fx-text-fill: blue;
+    -fx-font-weight: bold;
+    -fx-font-size: 18px;
+}
+
+

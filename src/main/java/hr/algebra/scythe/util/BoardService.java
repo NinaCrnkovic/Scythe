@@ -34,7 +34,7 @@ public class BoardService {
         return getTile(i, j);
     }
 
-    static Tile getTile(int i, int j) {
+    public static Tile getTile(int i, int j) {
         if ((i + j) % 3 == 0) {
             return new Tile(Tile.Type.VILLAGE);
         } else if ((i + j) % 3 == 1) {

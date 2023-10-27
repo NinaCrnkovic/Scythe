@@ -18,6 +18,9 @@ public class DiceRollController {
     @FXML
     private Label bluePlayerResult;
 
+    @FXML
+    private Label gameResult;
+
     private Random random = new Random();
 
     @FXML
@@ -25,23 +28,31 @@ public class DiceRollController {
         int roll = random.nextInt(6) + 1;
         redPlayerResult.setText("Red: " + roll);
 
-        // Deaktivirajte gumb za crvenog igrača i aktivirajte gumb za plavog igrača
+
         redPlayerRollDiceButton.setDisable(true);
         bluePlayerRollDiceButton.setDisable(false);
     }
+
     @FXML
     public void rollBlueDice() {
         int roll = random.nextInt(6) + 1;
         bluePlayerResult.setText("Blue: " + roll);
 
         // Ovdje možete dodati logiku za određivanje pobjednika i zatvaranje prozora
-        if (Integer.parseInt(redPlayerResult.getText().split(": ")[1]) > roll) {
-            // Crveni igrač pobjeđuje
-        } else if (Integer.parseInt(redPlayerResult.getText().split(": ")[1]) < roll) {
-            // Plavi igrač pobjeđuje
+        int redRoll = Integer.parseInt(redPlayerResult.getText().split(": ")[1]);
+        if (redRoll > roll) {
+
+            bluePlayerRollDiceButton.setDisable(true);
+        } else if (redRoll < roll) {
+
+            bluePlayerRollDiceButton.setDisable(true);
         } else {
-            // Izjednačeno
+
+            bluePlayerRollDiceButton.setDisable(false);
+            redPlayerRollDiceButton.setDisable(false);
         }
     }
+
+
 }
 
