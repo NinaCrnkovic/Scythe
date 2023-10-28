@@ -5,6 +5,9 @@ public class Constants {
     public static final int TILE_WIDTH= 120;
     public static final int TILE_HEIGHT= 120;
 
+    public static final int IMAGE_WIDTH= 50;
+    public static final int IMAGE_HEIGHT= 50;
+
     public static final int ICON_SIZE = 40;
 
     public static final String DICE_ROLL_PATH = "/hr/algebra/scythe/view/diceRoll.fxml";

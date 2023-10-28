@@ -26,6 +26,7 @@ public class PlayerService {
     public void initializePlayers() {
         setSoldierPositions(playerRed, RED_SOLDIER_START_POSITIONS);
         setSoldierPositions(playerBlue, BLUE_SOLDIER_START_POSITIONS);
+
     }
 
     private void setSoldierPositions(Player player, int[][] positions) {

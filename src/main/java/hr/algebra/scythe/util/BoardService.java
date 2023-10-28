@@ -7,7 +7,9 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.RowConstraints;
 
 import java.util.Objects;
 
@@ -81,6 +83,19 @@ public class BoardService {
 
 
     public void setupBoard() {
+        gameBoard.getRowConstraints().clear();
+        gameBoard.getColumnConstraints().clear();
+
+        // Postavljanje fiksne visine i širine za svaki red i kolonu unutar GridPane
+        for (int i = 0; i < Constants.BOARD_SIZE; i++) {
+            RowConstraints rowConstraints = new RowConstraints();
+            rowConstraints.setPrefHeight(Constants.TILE_HEIGHT+10);
+            gameBoard.getRowConstraints().add(rowConstraints);
+
+            ColumnConstraints colConstraints = new ColumnConstraints();
+            colConstraints.setPrefWidth(Constants.TILE_WIDTH+10);
+            gameBoard.getColumnConstraints().add(colConstraints);
+        }
         for (int i = 0; i < Constants.BOARD_SIZE; i++) {
             for (int j = 0; j < Constants.BOARD_SIZE; j++) {
                 Tile tile = getTileByIndex(i, j);

@@ -37,7 +37,7 @@ public class ScytheController {
     private int movesMade;
 
     private int totalTurns = 0;
-    private static final int MAX_TURNS = 1;
+    private static final int MAX_TURNS = 10;
     private boolean gameEnded = false;
 
     private Set<Soldier> soldiersMoved = new HashSet<>();
@@ -55,7 +55,7 @@ public class ScytheController {
 
         currentPlayer = playerService.getPlayerRed();
         movesMade = 0;
-        updateAllPlayerInfo(List.of(playerService.getPlayerRed(), playerService.getPlayerBlue()));
+        ResourceDisplay.updateAllPlayerInfo(List.of(playerService.getPlayerRed(), playerService.getPlayerBlue()), allPlayersGrid);
     }
     private void handleBattle(int x, int y) {
         Soldier defender = playerService.getSelectedSoldier(x, y, null);
@@ -89,15 +89,15 @@ public class ScytheController {
                 if (!playerService.isTileOccupiedBySameColor(currentPlayer, x, y)) {
                     if (playerService.isTileOccupiedByOpponent(currentPlayer, x, y)) {
                         handleBattle(x, y);
-                        //soldiersMoved.add(selectedSoldier); // Dodajemo napadača u set nakon napada
+                        ResourceDisplay.updateAllPlayerInfo(List.of(playerService.getPlayerRed(), playerService.getPlayerBlue()), allPlayersGrid);
                     } else {
                         moveSelectedSoldierTo(x, y);
-                        soldiersMoved.add(selectedSoldier); // Dodajemo vojnika u set nakon poteza
+                        soldiersMoved.add(selectedSoldier);
                     }
                     selectedSoldier = null;
                     if (soldiersMoved.size() == 3) {
                         switchPlayer();
-                        soldiersMoved.clear(); // Očistite set da bi se mogli ponovno početi brojati potezi za sljedećeg igrača
+                        soldiersMoved.clear();
                     }
                 }
             }
@@ -111,7 +111,7 @@ public class ScytheController {
             selectedSoldier.setY(y);
             Tile tileOnPosition = BoardService.getTile(x, y);
             resourceService.gatherResourcesFromTile(selectedSoldier, tileOnPosition);
-            updateAllPlayerInfo(List.of(playerService.getPlayerRed(), playerService.getPlayerBlue()));
+            ResourceDisplay.updateAllPlayerInfo(List.of(playerService.getPlayerRed(), playerService.getPlayerBlue()), allPlayersGrid);
         }
     }
 
@@ -123,7 +123,7 @@ public class ScytheController {
         }
         currentPlayer = (currentPlayer == playerService.getPlayerRed()) ? playerService.getPlayerBlue() : playerService.getPlayerRed();
         soldiersMoved.clear();
-        updateAllPlayerInfo(List.of(playerService.getPlayerRed(), playerService.getPlayerBlue()));
+        ResourceDisplay.updateAllPlayerInfo(List.of(playerService.getPlayerRed(), playerService.getPlayerBlue()), allPlayersGrid);
     }
 
     private void endGame() {
@@ -163,30 +163,7 @@ public class ScytheController {
 
     }
 
-    private void updateAllPlayerInfo(List<Player> players) {
-        allPlayersGrid.getChildren().clear();
 
-        int rowIndex = 0;
-        for (Player player : players) {
-            Label playerLabel = new Label(player.getColor().toString() + " Player");
-            playerLabel.setPadding(new Insets(10, 10, 10, 10));
-            playerLabel.getStyleClass().add(player.getColor().toString().toLowerCase() + "-player");
-
-            allPlayersGrid.add(playerLabel, 0, rowIndex++);
-
-            for (int i = 0; i < 3; i++) {
-                Soldier soldier = player.getSoldier(i);
-
-                Label soldierLabel = new Label("Soldier " + (i + 1));
-                soldierLabel.setPadding(new Insets(10, 10, 10, 10));
-                soldierLabel.setStyle("-fx-font-weight: bold;");
-                allPlayersGrid.add(soldierLabel, 0, rowIndex);
-
-                VBox resourcesBox = ResourceDisplay.createResourceBox(soldier);
-                allPlayersGrid.add(resourcesBox, 1, rowIndex++);
-            }
-        }
-    }
     @FXML
     private void handleNewGame() {
        gameEnded= false;

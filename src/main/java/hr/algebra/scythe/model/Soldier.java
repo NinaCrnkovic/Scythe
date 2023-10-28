@@ -24,6 +24,7 @@ public class Soldier {
         this.image = new Image(Objects.requireNonNull(getClass().getResource(imagePath)).toExternalForm());
         this.x = x;
         this.y = y;
+
     }
 
 
