@@ -1,34 +1,23 @@
 package hr.algebra.scythe.controller;
-
 import hr.algebra.scythe.model.Soldier;
 import hr.algebra.scythe.model.Player;
 import hr.algebra.scythe.model.Tile;
-import hr.algebra.scythe.util.BoardService;
-import hr.algebra.scythe.util.PlayerService;
-import hr.algebra.scythe.util.GameLogic;
-import hr.algebra.scythe.util.Constants;
+import hr.algebra.scythe.util.*;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+import javafx.geometry.Insets;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
-
 import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 
 public class ScytheController {
     @FXML
-    public BorderPane borderPane;
+    private BorderPane borderPane;
 
     @FXML
     private GridPane gameBoard;
@@ -40,167 +29,179 @@ public class ScytheController {
     private Soldier lastSoldierMoved = null;
 
     private final PlayerService playerService = new PlayerService();
+    private final WindowUtil windowUtil = new WindowUtil();
+    private final ResourceService resourceService = new ResourceService();
     private BoardService boardService;
+    private BattleService battleService;
     private Player currentPlayer;
     private int movesMade;
 
-    private Set<Soldier> soldiersMoved = new HashSet<>();
+    private int totalTurns = 0;
+    private static final int MAX_TURNS = 1;
+    private boolean gameEnded = false;
 
+    private Set<Soldier> soldiersMoved = new HashSet<>();
+    Set<Soldier> soldiersAttacked = new HashSet<>();
 
     public void initialize() {
         playerService.initializePlayers();
         boardService = new BoardService(gameBoard, this::handleTileClick,
                 playerService.getPlayerRed(), playerService.getPlayerBlue());
         boardService.setupBoard();
+        battleService = new BattleService(playerService, windowUtil, resourceService);
+
         borderPane.setFocusTraversable(true);
         borderPane.requestFocus();
-        currentPlayer = playerService.getPlayerRed();  // Crveni igrač započinje igru
+
+        currentPlayer = playerService.getPlayerRed();
         movesMade = 0;
         updateAllPlayerInfo(List.of(playerService.getPlayerRed(), playerService.getPlayerBlue()));
+    }
+    private void handleBattle(int x, int y) {
+        Soldier defender = playerService.getSelectedSoldier(x, y, null);
+        int attackerOldX = selectedSoldier.getX();
+        int attackerOldY = selectedSoldier.getY();
 
+        boolean attackMade = battleService.initiateAttack(selectedSoldier, currentPlayer, x, y, attackerOldX, attackerOldY);
+        if (attackMade) {
+            soldiersMoved.add(selectedSoldier); // Dodajemo vojnika koji je napao u skup
+        }
+        playerService.returnSoldierToOriginalPosition(selectedSoldier, attackerOldX, attackerOldY);
+        selectedSoldier = null;
+
+        if (defender != null) {
+            playerService.returnSoldierToOriginalPosition(defender, x, y);
+        }
     }
 
     private void handleTileClick(int x, int y) {
+        if (gameEnded) {
+            return;
+        }
         if (selectedSoldier == null) {
             selectedSoldier = playerService.getSelectedSoldier(x, y, lastSoldierMoved);
-            if (selectedSoldier != null && selectedSoldier.getColor() != currentPlayer.getColor()) {
-                // The player is trying to move an opponent's soldier.
+            if (selectedSoldier != null && (selectedSoldier.getColor() != currentPlayer.getColor() || soldiersMoved.contains(selectedSoldier))) {
                 selectedSoldier = null;
-                return;
             }
-        } else {
+
+    } else {
             if (GameLogic.isAdjacent(selectedSoldier, x, y)) {
                 if (!playerService.isTileOccupiedBySameColor(currentPlayer, x, y)) {
                     if (playerService.isTileOccupiedByOpponent(currentPlayer, x, y)) {
-                        System.out.println("Battle Initiated!");  // Placeholder for battle logic
-                        boardService.setBattleImage(x, y);
-                        openDiceRollWindow();
+                        handleBattle(x, y);
+                        //soldiersMoved.add(selectedSoldier); // Dodajemo napadača u set nakon napada
+                    } else {
+                        moveSelectedSoldierTo(x, y);
+                        soldiersMoved.add(selectedSoldier); // Dodajemo vojnika u set nakon poteza
                     }
-                    moveSelectedSoldierTo(x, y);
-                    lastSoldierMoved = selectedSoldier;
-                    soldiersMoved.add(selectedSoldier);
-
+                    selectedSoldier = null;
                     if (soldiersMoved.size() == 3) {
                         switchPlayer();
+                        soldiersMoved.clear(); // Očistite set da bi se mogli ponovno početi brojati potezi za sljedećeg igrača
                     }
                 }
-                selectedSoldier = null;
             }
         }
         boardService.updateBoard();
     }
 
-
-
     private void moveSelectedSoldierTo(int x, int y) {
         if (GameLogic.isValidMove(x, y, Constants.BOARD_SIZE)) {
             selectedSoldier.setX(x);
             selectedSoldier.setY(y);
-
-            // After setting the new position, gather resources
             Tile tileOnPosition = BoardService.getTile(x, y);
-            playerService.gatherResourcesFromTile(selectedSoldier, tileOnPosition);
-
-            // Update the player info UI after each move
+            resourceService.gatherResourcesFromTile(selectedSoldier, tileOnPosition);
             updateAllPlayerInfo(List.of(playerService.getPlayerRed(), playerService.getPlayerBlue()));
         }
     }
 
-
-
     private void switchPlayer() {
-        if (currentPlayer == playerService.getPlayerRed()) {
-            currentPlayer = playerService.getPlayerBlue();
-        } else {
-            currentPlayer = playerService.getPlayerRed();
+        totalTurns++;
+        if(totalTurns == MAX_TURNS) {
+            endGame();
+            return;
         }
-        soldiersMoved.clear();  // Clear the set when switching players
-
-        // Update the player info UI after switching the player
+        currentPlayer = (currentPlayer == playerService.getPlayerRed()) ? playerService.getPlayerBlue() : playerService.getPlayerRed();
+        soldiersMoved.clear();
         updateAllPlayerInfo(List.of(playerService.getPlayerRed(), playerService.getPlayerBlue()));
     }
 
+    private void endGame() {
+        int redResources = playerService.getPlayerRed().totalResources();
+        int blueResources = playerService.getPlayerBlue().totalResources();
 
-    public void openDiceRollWindow() {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/hr/algebra/scythe/view/diceRoll.fxml"));
-            Parent root = (Parent) fxmlLoader.load();
-            Stage stage = new Stage();
-            stage.setTitle("Roll Dice");
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
+        Player winner;
+        if (redResources > blueResources) {
+            winner = playerService.getPlayerRed();
+        } else if (blueResources > redResources) {
+            winner = playerService.getPlayerBlue();
+        } else {
+            winner = null;
         }
+
+        displayEndGameMessage(winner, redResources, blueResources);
+        gameEnded = true;
+    }
+
+    private void displayEndGameMessage(Player winner, int redResources, int blueResources) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Game Over");
+
+        StringBuilder message = new StringBuilder();
+
+        if(winner == null) {
+            message.append("It's a tie!\n");
+        } else {
+            message.append(winner.getColor()).append(" Player wins!\n");
+        }
+
+        message.append("Red Player had ").append(redResources).append(" resources.\n");
+        message.append("Blue Player had ").append(blueResources).append(" resources.");
+
+        alert.setContentText(message.toString());
+        alert.showAndWait();
+
     }
 
     private void updateAllPlayerInfo(List<Player> players) {
-        allPlayersGrid.getChildren().clear();  // Ukloni sve trenutne informacije
+        allPlayersGrid.getChildren().clear();
 
         int rowIndex = 0;
-
         for (Player player : players) {
             Label playerLabel = new Label(player.getColor().toString() + " Player");
-
-            if (player.getColor() == Player.Color.RED) {
-                playerLabel = new Label("Red Player");
-                playerLabel.getStyleClass().add("red-player");
-            } else {
-                playerLabel = new Label("Blue Player");
-                playerLabel.getStyleClass().add("blue-player");
-            }
+            playerLabel.setPadding(new Insets(10, 10, 10, 10));
+            playerLabel.getStyleClass().add(player.getColor().toString().toLowerCase() + "-player");
 
             allPlayersGrid.add(playerLabel, 0, rowIndex++);
 
             for (int i = 0; i < 3; i++) {
                 Soldier soldier = player.getSoldier(i);
 
-                Label soldierLabel = new Label("Soldier " + (i + 1));  // +1 jer želimo vojnike označiti kao Soldier 1, Soldier 2, itd.
+                Label soldierLabel = new Label("Soldier " + (i + 1));
+                soldierLabel.setPadding(new Insets(10, 10, 10, 10));
                 soldierLabel.setStyle("-fx-font-weight: bold;");
                 allPlayersGrid.add(soldierLabel, 0, rowIndex);
 
-                VBox resourcesBox = createResourceBox(soldier);
+                VBox resourcesBox = ResourceDisplay.createResourceBox(soldier);
                 allPlayersGrid.add(resourcesBox, 1, rowIndex++);
-
-
             }
         }
     }
+    @FXML
+    private void handleNewGame() {
+       gameEnded= false;
+        totalTurns = 0;
+        initialize();
 
-    private VBox createResourceBox(Soldier soldier) {
-        VBox resourceBox = new VBox(5);
-
-        HBox woodBox = createResourceIconBox(Constants.WOOD_ICON_PATH, soldier.getWood(), 32);
-        HBox metalBox = createResourceIconBox(Constants.METAL_ICON_PATH, soldier.getMetal(), 32);
-        HBox foodBox = createResourceIconBox(Constants.FOOD_ICON_PATH, soldier.getFood(), 32);
-
-
-        resourceBox.getChildren().addAll(woodBox, metalBox, foodBox);
-
-        return resourceBox;
     }
+    @FXML
+    private void handleExit() {
+        Platform.exit();
 
-    private HBox createResourceIconBox(String iconPath, int value, double iconSize) {
-        HBox iconBox = new HBox(5);
-
-        ImageView icon = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream(iconPath))));
-        icon.setFitWidth(iconSize);
-        icon.setFitHeight(iconSize);
-
-        Label valueLabel = new Label(Integer.toString(value));
-
-        iconBox.getChildren().addAll(icon, valueLabel);
-
-        return iconBox;
     }
-
-
-
-
-
-
 
 }
+
 
 
 

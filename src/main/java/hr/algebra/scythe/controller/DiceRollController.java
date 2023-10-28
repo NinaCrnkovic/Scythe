@@ -38,19 +38,26 @@ public class DiceRollController {
         int roll = random.nextInt(6) + 1;
         bluePlayerResult.setText("Blue: " + roll);
 
-        // Ovdje možete dodati logiku za određivanje pobjednika i zatvaranje prozora
-        int redRoll = Integer.parseInt(redPlayerResult.getText().split(": ")[1]);
+        int redRoll = getRedPlayerRoll();
         if (redRoll > roll) {
-
+            gameResult.setText("Red Player wins!");
             bluePlayerRollDiceButton.setDisable(true);
         } else if (redRoll < roll) {
-
+            gameResult.setText("Blue Player wins!");
             bluePlayerRollDiceButton.setDisable(true);
         } else {
-
+            gameResult.setText("It's a tie! Roll again.");
             bluePlayerRollDiceButton.setDisable(false);
             redPlayerRollDiceButton.setDisable(false);
         }
+    }
+
+    public int getRedPlayerRoll() {
+        return Integer.parseInt(redPlayerResult.getText().split(": ")[1]);
+    }
+
+    public int getBluePlayerRoll() {
+        return Integer.parseInt(bluePlayerResult.getText().split(": ")[1]);
     }
 
 

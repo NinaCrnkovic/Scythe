@@ -48,24 +48,27 @@ public class BoardService {
     public void setBattleImage(int x, int y) {
         Image battleImage = new Image(Objects.requireNonNull(getClass().getResource(Constants.BATTLE_IMAGE_PATH)).toExternalForm());
         ImageView imageView = new ImageView(battleImage);
-        imageView.setFitWidth(Constants.TILE_WIDTH); // Postavite odgovarajuću širinu
-        imageView.setFitHeight(Constants.TILE_HEIGHT); // Postavite odgovarajuću visinu
-
-
-
-        // Pribavljanje sadržaja na poziciji (x,y)
-        Node existingContent = getNodeFromGridPane(gameBoard, x, y);
-
-        // Uklanjanje postojećeg sadržaja
-        if (existingContent != null) {
-            gameBoard.getChildren().remove(existingContent);
-        }
-
-        // Dodavanje novog ImageView
+        imageView.setFitWidth(Constants.TILE_WIDTH);
+        imageView.setFitHeight(Constants.TILE_HEIGHT);
         gameBoard.add(imageView, x, y);
+        boardImages[x][y] = imageView;
     }
 
-    // Pomoćna metoda koja vraća sadržaj iz GridPane-a na određenom mjestu
+    public void removeBattleImage(int x, int y) {
+        // Uzima sliku vojnika i postavlja je natrag
+        for (int k = 0; k < 3; k++) {
+            Soldier redSoldier = playerRed.getSoldier(k);
+            if (redSoldier.isAt(x, y)) {
+                boardImages[x][y].setImage(redSoldier.getImage());
+            } else {
+                Soldier blueSoldier = playerBlue.getSoldier(k);
+                if (blueSoldier.isAt(x, y)) {
+                    boardImages[x][y].setImage(blueSoldier.getImage());
+                }
+            }
+        }
+    }
+
     private Node getNodeFromGridPane(GridPane gridPane, int col, int row) {
         for (Node node : gridPane.getChildren()) {
             if (GridPane.getColumnIndex(node) == col && GridPane.getRowIndex(node) == row) {

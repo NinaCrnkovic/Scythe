@@ -43,14 +43,17 @@
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
-          <Menu mnemonicParsing="false" text="File">
+          <Menu mnemonicParsing="false" text="Game">
             <items>
-              <MenuItem mnemonicParsing="false" text="Close" />
+              <MenuItem mnemonicParsing="false" text="New" onAction="#handleNewGame"/>
+                <MenuItem mnemonicParsing="false" text="Save" />
+                <MenuItem mnemonicParsing="false" text="Load" />
+                <MenuItem mnemonicParsing="false" text="Exit" onAction="#handleExit" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Edit">
+          <Menu mnemonicParsing="false" text="Documentation">
             <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
+              <MenuItem mnemonicParsing="false" text="Create documentation" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Help">
@@ -63,7 +66,11 @@
    </top>
     <left>
 
-            <GridPane fx:id="allPlayersGrid" prefHeight="724.0" prefWidth="238.0" BorderPane.alignment="CENTER" hgap="10" vgap="10">
+            <GridPane fx:id="allPlayersGrid"
+                      prefHeight="724.0"
+                      prefWidth="238.0"
+                      BorderPane.alignment="CENTER"
+                      hgap="10" vgap="10">
 
             </GridPane>
 

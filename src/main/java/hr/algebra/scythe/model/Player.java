@@ -50,7 +50,18 @@ public class Player {
         alert.showAndWait();
     }
 
-    // Generira random broj uključujući min i max vrijednosti
+    public int totalResources() {
+        int total = 0;
+        for(Soldier soldier : soldiers) {
+            total += soldier.getWood();
+            total += soldier.getMetal();
+            total += soldier.getFood();
+        }
+        return total;
+    }
+
+
+
     private int gatherRandomResources(int min, int max) {
         return (int) (Math.random() * (max - min + 1) + min);
     }

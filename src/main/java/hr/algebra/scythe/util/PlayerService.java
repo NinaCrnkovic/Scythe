@@ -36,15 +36,17 @@ public class PlayerService {
 
     public Soldier getSelectedSoldier(int x, int y, Soldier lastSoldierMoved) {
         for (int i = 0; i < 3; i++) {
-            if (playerRed.getSoldier(i).isAt(x, y) && (lastSoldierMoved == null || !lastSoldierMoved.equals(playerRed.getSoldier(i)))) {
+            if (playerRed.getSoldier(i).isAt(x, y)) {
                 return playerRed.getSoldier(i);
             }
-            if (playerBlue.getSoldier(i).isAt(x, y) && (lastSoldierMoved == null || !lastSoldierMoved.equals(playerBlue.getSoldier(i)))) {
+            if (playerBlue.getSoldier(i).isAt(x, y)) {
                 return playerBlue.getSoldier(i);
             }
         }
         return null;
     }
+
+
 
     public boolean isTileOccupiedBySameColor(Player currentPlayer, int x, int y) {
         Player playerToCheck = (currentPlayer.getColor() == Player.Color.RED) ? playerRed : playerBlue;
@@ -73,61 +75,14 @@ public class PlayerService {
         return playerBlue;
     }
 
-
-    public void gatherResourcesFromTile(Soldier soldier, Tile tile) {
-        int woodGained = 0;
-        int metalGained = 0;
-        int foodGained = 0;
-
-        switch (tile.getType()) {
-            case FOREST:
-                woodGained = gatherRandomResources(1, 3);
-                break;
-            case MOUNTAIN:
-                metalGained = gatherRandomResources(1, 3);
-                break;
-            case VILLAGE:
-                foodGained = gatherRandomResources(1, 3);
-                break;
-            default:
-                break;
-        }
-
-        soldier.addWood(woodGained);
-        soldier.addMetal(metalGained);
-        soldier.addFood(foodGained);
-
-        StringBuilder message = new StringBuilder("You got ");
-        if (woodGained > 0) {
-            message.append(woodGained).append(" wood");
-        }
-        if (metalGained > 0) {
-            if (woodGained > 0) {
-                message.append(", ");
-            }
-            message.append(metalGained).append(" metal");
-        }
-        if (foodGained > 0) {
-            if (woodGained > 0 || metalGained > 0) {
-                message.append(", ");
-            }
-            message.append(foodGained).append(" food");
-        }
-
-        message.append(".");
-
-        // Prikaži pop-up poruku
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Resource Gain");
-        alert.setHeaderText(null);
-        alert.setContentText(message.toString());
-
-        // Prikazi poruku i čekaj na potvrdu korisnika
-        alert.showAndWait();
+    public static void returnAttackerToOriginalPosition(Soldier attacker, int originalX, int originalY) {
+        attacker.setX(originalX);
+        attacker.setY(originalY);
     }
 
-    private int gatherRandomResources(int min, int max) {
-        return (int) (Math.random() * (max - min + 1) + min);
+    public static void returnSoldierToOriginalPosition(Soldier soldier, int originalX, int originalY) {
+        soldier.setX(originalX);
+        soldier.setY(originalY);
     }
 
 

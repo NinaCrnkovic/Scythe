@@ -57,6 +57,18 @@ public class Soldier {
         return wood;
     }
 
+    public void setWood(int wood) {
+        this.wood = wood;
+    }
+
+    public void setMetal(int metal) {
+        this.metal = metal;
+    }
+
+    public void setFood(int food) {
+        this.food = food;
+    }
+
     public boolean isAt(int x, int y) {
         return this.x == x && this.y == y;
     }
