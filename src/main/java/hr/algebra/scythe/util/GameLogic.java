@@ -1,6 +1,12 @@
 package hr.algebra.scythe.util;
+import hr.algebra.scythe.model.Player;
 import hr.algebra.scythe.model.Soldier;
 public class GameLogic {
+
+
+
+
+
 
     public static boolean isAdjacent(Soldier soldier, int x, int y) {
         int dx = x - soldier.getX();

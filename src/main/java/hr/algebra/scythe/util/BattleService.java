@@ -19,7 +19,7 @@ public class BattleService {
         Soldier defender = playerService.getSelectedSoldier(toX, toY, null);
 
         if (defender == null) {
-            return false;  // Branitelj nije pronađen, napad nije izveden
+            return false;
         }
 
         int[] rolls = windowUtil.openDiceRollWindow();

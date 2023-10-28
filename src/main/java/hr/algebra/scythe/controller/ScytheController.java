@@ -5,12 +5,9 @@ import hr.algebra.scythe.model.Tile;
 import hr.algebra.scythe.util.*;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -57,7 +54,7 @@ public class ScytheController {
         movesMade = 0;
         ResourceDisplay.updateAllPlayerInfo(List.of(playerService.getPlayerRed(), playerService.getPlayerBlue()), allPlayersGrid);
     }
-    private void handleBattle(int x, int y) {
+   private void handleBattle(int x, int y) {
         Soldier defender = playerService.getSelectedSoldier(x, y, null);
         int attackerOldX = selectedSoldier.getX();
         int attackerOldY = selectedSoldier.getY();
@@ -139,28 +136,8 @@ public class ScytheController {
             winner = null;
         }
 
-        displayEndGameMessage(winner, redResources, blueResources);
+        MessageService.displayEndGameMessage(winner, redResources, blueResources);
         gameEnded = true;
-    }
-
-    private void displayEndGameMessage(Player winner, int redResources, int blueResources) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Game Over");
-
-        StringBuilder message = new StringBuilder();
-
-        if(winner == null) {
-            message.append("It's a tie!\n");
-        } else {
-            message.append(winner.getColor()).append(" Player wins!\n");
-        }
-
-        message.append("Red Player had ").append(redResources).append(" resources.\n");
-        message.append("Blue Player had ").append(blueResources).append(" resources.");
-
-        alert.setContentText(message.toString());
-        alert.showAndWait();
-
     }
 
 

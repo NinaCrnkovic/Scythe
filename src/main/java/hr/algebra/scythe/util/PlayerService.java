@@ -2,30 +2,19 @@ package hr.algebra.scythe.util;
 
 import hr.algebra.scythe.model.Soldier;
 import hr.algebra.scythe.model.Player;
-import hr.algebra.scythe.model.Tile;
-import javafx.scene.control.Alert;
 
-import java.util.Random;
+
+
 
 public class PlayerService {
 
     private final Player playerRed = new Player(Player.Color.RED);
     private final Player playerBlue = new Player(Player.Color.BLUE);
-    private static final int[][] RED_SOLDIER_START_POSITIONS = {
-            {0, 0},
-            {0, 1},
-            {1, 0}
-    };
 
-    private static final int[][] BLUE_SOLDIER_START_POSITIONS = {
-            {5, 5},
-            {4, 5},
-            {5, 4}
-    };
 
     public void initializePlayers() {
-        setSoldierPositions(playerRed, RED_SOLDIER_START_POSITIONS);
-        setSoldierPositions(playerBlue, BLUE_SOLDIER_START_POSITIONS);
+        setSoldierPositions(playerRed, Constants.RED_SOLDIER_START_POSITIONS);
+        setSoldierPositions(playerBlue, Constants.BLUE_SOLDIER_START_POSITIONS);
 
     }
 

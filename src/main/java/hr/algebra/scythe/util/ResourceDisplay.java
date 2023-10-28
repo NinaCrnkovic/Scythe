@@ -10,7 +10,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.RowConstraints;
-import javafx.scene.layout.VBox;
+
 
 import java.util.List;
 import java.util.Objects;
@@ -19,7 +19,7 @@ public class ResourceDisplay {
 
 
     public static HBox createResourceBox(Soldier soldier) {
-        HBox resourceBox = new HBox(10);  // Promijenjeno na HBox s 10px razmaka između djece
+        HBox resourceBox = new HBox(Constants.MARGIN);
 
         HBox woodBox = createResourceIconBox(Constants.WOOD_ICON_PATH, soldier.getWood(), Constants.ICON_SIZE);
         HBox metalBox = createResourceIconBox(Constants.METAL_ICON_PATH, soldier.getMetal(), Constants.ICON_SIZE);

@@ -89,11 +89,11 @@ public class BoardService {
         // Postavljanje fiksne visine i širine za svaki red i kolonu unutar GridPane
         for (int i = 0; i < Constants.BOARD_SIZE; i++) {
             RowConstraints rowConstraints = new RowConstraints();
-            rowConstraints.setPrefHeight(Constants.TILE_HEIGHT+10);
+            rowConstraints.setPrefHeight(Constants.TILE_HEIGHT+Constants.MARGIN);
             gameBoard.getRowConstraints().add(rowConstraints);
 
             ColumnConstraints colConstraints = new ColumnConstraints();
-            colConstraints.setPrefWidth(Constants.TILE_WIDTH+10);
+            colConstraints.setPrefWidth(Constants.TILE_WIDTH+Constants.MARGIN);
             gameBoard.getColumnConstraints().add(colConstraints);
         }
         for (int i = 0; i < Constants.BOARD_SIZE; i++) {
