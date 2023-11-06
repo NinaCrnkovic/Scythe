@@ -22,22 +22,27 @@ public class DocumentationUtils {
                     .toList();
 
             String htmlHeader = """
-    <!DOCTYPE html>
-    <html>
-    <head>
-    <title>Project Documentation</title>
-    <style>
-        body { font-family: Arial, sans-serif; }
-        .class-name { color: #008080; }
-        .property-title { color: #800080; }
-        .constructor-title { color: #008000; }
-        .method-title { color: #000080; }
-        h1, h2 { margin: 0; padding: 10px 0; }
-        .section { margin-bottom: 20px; }
-    </style>
-    </head>
-    <body>
-    """;
+                    <!DOCTYPE html>
+                    <html>
+                    <head>
+                    <title>Project Documentation</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; }
+                        .main-title {
+                                color: #ff0000; 
+                                text-align: center;
+                            }
+                        .class-name { color: #008080; }
+                        .property-title { color: #800080; }
+                        .constructor-title { color: #008000; }
+                        .method-title { color: #000080; }
+                        h2, h3 { margin: 0; padding: 10px 0; }
+                        .section { margin-bottom: 20px; }
+                    </style>
+                    </head>
+                    <body>
+                    <h1 class='main-title'>Scythe documentation</h1>
+                    """;
 
             for(String classFilePath : listOfClassFilePaths) {
                 String[] pathTokens = classFilePath.split("classes");
@@ -46,16 +51,17 @@ public class DocumentationUtils {
                 String fqn = fqnWithSlashes.replace('\\', '.');
                 Class<?> deserializedClass = Class.forName(fqn);
 
-                htmlHeader += "<h1 class='class-name'>" + deserializedClass.getSimpleName() + "</h1>\n";
+                htmlHeader += "<h2 class='class-name'>" + deserializedClass.getSimpleName() + "</h2>\n";
 
 
 
-                htmlHeader += "<h2 class='property-title'>Properties</h2>\n";
+                htmlHeader += "<h3 class='property-title'>Properties</h3>\n";
 
                 Field[] fields = deserializedClass.getDeclaredFields();
 
                 for(Field field : fields) {
                     int modifiers = field.getModifiers();
+                    htmlHeader += "<p>";
 
                     if(Modifier.isPublic(modifiers)) {
                         htmlHeader += "public ";
@@ -88,75 +94,74 @@ public class DocumentationUtils {
 
                     htmlHeader += name + "<br>";
                     //System.out.println(name + " ");
+                    htmlHeader += "</p>\n";
 
                 }
                 htmlHeader += "</div>";
 
-                // Kod unutar vaše for petlje, prije ili nakon ispisivanja metoda
-
-                htmlHeader += "<h2 class='constructor-title'>Constructors</h2>\n";
+                htmlHeader += "<h3 class='constructor-title'>Constructors</h3>\n";
                 Constructor<?>[] constructors = deserializedClass.getDeclaredConstructors();
                 for (Constructor<?> constructor : constructors) {
                     int modifiers = constructor.getModifiers();
 
-                    htmlHeader += "<p>"; // Početak paragrafa za konstruktor
+                    htmlHeader += "<p>"; // Start of paragraph for constructor
 
-                    // Dodajemo modifikatore
+                    // Add modifiers
                     htmlHeader += Modifier.toString(modifiers) + " ";
 
-                    // Dodajemo ime konstruktora (samo ime klase)
+                    // Add the name of the constructor (which is the simple name of the class)
                     htmlHeader += deserializedClass.getSimpleName();
 
-                    // Dodajemo parametre
+                    // Add parameters
                     htmlHeader += "(";
                     Parameter[] parameters = constructor.getParameters();
                     for (int i = 0; i < parameters.length; i++) {
                         Parameter parameter = parameters[i];
-                        htmlHeader += parameter.getType().getTypeName() + " " + parameter.getName();
+                        htmlHeader += parameter.getType().getSimpleName() + " " + parameter.getName(); // getName() će sada vratiti pravo ime
                         if (i < parameters.length - 1) {
                             htmlHeader += ", ";
                         }
                     }
                     htmlHeader += ")";
 
-                    htmlHeader += "</p>\n"; // Kraj paragrafa za konstruktor
+                    htmlHeader += "</p>\n"; // End of paragraph for constructor
                 }
-                htmlHeader += "</div>\n";
+                htmlHeader += "</div>\n"; // Assuming this closes the section for constructors
 
-                htmlHeader += "<h2 class='method-title'>Methods</h2>\n";
+
+                htmlHeader += "<h3 class='method-title'>Methods</h3>\n";
                 Method[] methods = deserializedClass.getDeclaredMethods();
                 for (Method method : methods) {
                     int modifiers = method.getModifiers();
 
-                    htmlHeader += "<p>"; // Početak paragrafa za metodu
+                    htmlHeader += "<p>"; // Start of paragraph for method
 
-                    // Dodajemo modifikatore
+                    // Add modifiers
                     htmlHeader += Modifier.toString(modifiers) + " ";
 
-                    // Dodajemo povratni tip
-                    htmlHeader += method.getReturnType().getTypeName() + " ";
+                    // Add return type with simple name
+                    htmlHeader += method.getReturnType().getSimpleName() + " "; // Use getSimpleName() for return type
 
-                    // Dodajemo ime metode
+                    // Add method name
                     htmlHeader += method.getName();
 
-                    // Dodajemo parametre
+                    // Add parameters
                     htmlHeader += "(";
                     Parameter[] parameters = method.getParameters();
                     for (int i = 0; i < parameters.length; i++) {
                         Parameter parameter = parameters[i];
-                        htmlHeader += parameter.getType().getTypeName() + " " + parameter.getName();
+                        // Use getSimpleName() for parameter types
+                        htmlHeader += parameter.getType().getSimpleName() + " " + parameter.getName();
                         if (i < parameters.length - 1) {
                             htmlHeader += ", ";
                         }
                     }
                     htmlHeader += ")";
 
-                    htmlHeader += "</p>"; // Kraj paragrafa za metodu
+                    htmlHeader += "</p>"; // End of paragraph for method
                 }
-
-
+                htmlHeader += "</div>"; // Assuming this closes the section for methods
             }
-            htmlHeader += "</div>";
 
             String htmlFooter = """
                 </body>
