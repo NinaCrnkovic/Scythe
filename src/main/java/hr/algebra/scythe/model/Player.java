@@ -1,12 +1,17 @@
 package hr.algebra.scythe.model;
+
 import javafx.scene.control.Alert;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Player {
+public class Player implements Serializable {
     public enum Color {
         RED, BLUE
     }
+
+    private static final long serialVersionUID = 1L; // dodajte ovu liniju kako biste kontrolirali verziju serijalizacije
+
     private Color color;
     private final Soldier[] soldiers = new Soldier[3];
 
@@ -20,6 +25,7 @@ public class Player {
     public Color getColor() {
         return color;
     }
+
     public void setSoldierPosition(int index, int x, int y) {
         soldiers[index].setX(x);
         soldiers[index].setY(y);
@@ -27,6 +33,9 @@ public class Player {
 
     public Soldier getSoldier(int index) {
         return soldiers[index];
+    }
+    public List<Soldier> getSoldiers() {
+        return List.of(soldiers);
     }
 
     public void gatherResourcesFromTile(Soldier soldier, Tile tile) {
@@ -52,7 +61,7 @@ public class Player {
 
     public int totalResources() {
         int total = 0;
-        for(Soldier soldier : soldiers) {
+        for (Soldier soldier : soldiers) {
             total += soldier.getWood();
             total += soldier.getMetal();
             total += soldier.getFood();
@@ -60,10 +69,15 @@ public class Player {
         return total;
     }
 
-
+    public void resetAllSoldierResources() {
+        for (Soldier soldier : soldiers) {
+            soldier.resetResources();
+        }
+    }
 
     private int gatherRandomResources(int min, int max) {
         return (int) (Math.random() * (max - min + 1) + min);
     }
 }
+
 

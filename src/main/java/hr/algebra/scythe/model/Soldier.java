@@ -3,13 +3,19 @@ package hr.algebra.scythe.model;
 import hr.algebra.scythe.util.Constants;
 
 import javafx.scene.image.Image;
+
+import java.io.Serializable;
 import java.util.Objects;
 
 
 
-public class Soldier {
+public class Soldier implements Serializable {
 
-    private final Image image;
+    private static final long serialVersionUID = 1L;
+
+    private transient Image image; // transient označava da ovo polje neće biti serijalizirano
+    private String imagePath;     // putanja slike koja će biti serijalizirana
+
     private int x, y;
 
     private int wood;
@@ -20,17 +26,20 @@ public class Soldier {
 
     public Soldier(Player.Color color, int index, int x, int y) {
         this.color = color;
-        String imagePath = String.format(Constants.PLAYER_IMAGE_PATH_FORMAT, color.name().toLowerCase(), index + 1);
-        this.image = new Image(Objects.requireNonNull(getClass().getResource(imagePath)).toExternalForm());
+        this.imagePath = String.format(Constants.PLAYER_IMAGE_PATH_FORMAT, color.name().toLowerCase(), index + 1);
+        this.image = loadImageFromPath(imagePath);
         this.x = x;
         this.y = y;
-
     }
 
-
-
+    private Image loadImageFromPath(String imagePath) {
+        return new Image(Objects.requireNonNull(getClass().getResource(imagePath)).toExternalForm());
+    }
 
     public Image getImage() {
+        if (image == null) { // Ako je slika null, učitajte je iz imagePath-a
+            image = loadImageFromPath(imagePath);
+        }
         return image;
     }
 
@@ -78,9 +87,6 @@ public class Soldier {
         this.wood += amount;
     }
 
-    public void removeWood(int amount) {
-        this.wood = Math.max(0, this.wood - amount); // Ensure we don't go negative
-    }
 
     public int getMetal() {
         return metal;
@@ -90,9 +96,7 @@ public class Soldier {
         this.metal += amount;
     }
 
-    public void removeMetal(int amount) {
-        this.metal = Math.max(0, this.metal - amount); // Ensure we don't go negative
-    }
+
 
     public int getFood() {
         return food;
@@ -102,8 +106,10 @@ public class Soldier {
         this.food += amount;
     }
 
-    public void removeFood(int amount) {
-        this.food = Math.max(0, this.food - amount); // Ensure we don't go negative
+    public void resetResources() {
+        this.setWood(0);
+        this.setMetal(0);
+        this.setFood(0);
     }
 
     @Override

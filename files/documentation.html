@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Project Documentation</title>
+<style>
+    body { font-family: Arial, sans-serif; }
+    .class-name { color: #008080; }
+    .property-title { color: #800080; }
+    .constructor-title { color: #008000; }
+    .method-title { color: #000080; }
+    h1, h2 { margin: 0; padding: 10px 0; }
+    .section { margin-bottom: 20px; }
+</style>
+</head>
+<body>
+<h1 class='class-name'>DiceRollController</h1>
+<h2 class='property-title'>Properties</h2>
+private Button redPlayerRollDiceButton<br>private Label redPlayerResult<br>private Button bluePlayerRollDiceButton<br>private Label bluePlayerResult<br>private Label gameResult<br>private Random random<br></div><h2 class='constructor-title'>Constructors</h2>
+<p>public DiceRollController()</p>
+</div>
+<h2 class='method-title'>Methods</h2>
+<p>public int getBluePlayerRoll()</p><p>public int getRedPlayerRoll()</p><p>public void rollRedDice()</p><p>public void rollBlueDice()</p><h1 class='class-name'>ScytheController</h1>
+<h2 class='property-title'>Properties</h2>
+private BorderPane borderPane<br>private GridPane gameBoard<br>private GridPane allPlayersGrid<br>private Soldier selectedSoldier<br>private Soldier lastSoldierMoved<br>private final PlayerService playerService<br>private final WindowUtil windowUtil<br>private final ResourceService resourceService<br>private BoardService boardService<br>private BattleService battleService<br>private Player currentPlayer<br>private int movesMade<br>private int totalTurns<br>private static final int MAX_TURNS<br>private boolean gameEnded<br>private Set soldiersMoved<br>Set soldiersAttacked<br>private Player redPlayer<br>private Player bluePlayer<br>private Color currentPlayerTurn<br>private int numberOfMoves<br></div><h2 class='constructor-title'>Constructors</h2>
+<p>public ScytheController()</p>
+</div>
+<h2 class='method-title'>Methods</h2>
+<p>public void initialize()</p><p>public void generateHtmlDocumentation()</p><p>private void saveGame()</p><p>private void handleExit()</p><p>private void loadGame()</p><p>private void handleNewGame()</p><p>private void handleTileClick(int arg0, int arg1)</p><p>private void switchPlayer()</p><h1 class='class-name'>GameState</h1>
+<h2 class='property-title'>Properties</h2>
+private static final long serialVersionUID<br>private Color currentPlayerTurn<br>private Player redPlayer<br>private Player bluePlayer<br>private int numberOfMoves<br></div><h2 class='constructor-title'>Constructors</h2>
+<p>public GameState(hr.algebra.scythe.model.Player$Color arg0, hr.algebra.scythe.model.Player arg1, hr.algebra.scythe.model.Player arg2, int arg3)</p>
+</div>
+<h2 class='method-title'>Methods</h2>
+<p>public void setCurrentPlayerTurn(hr.algebra.scythe.model.Player$Color arg0)</p><p>public hr.algebra.scythe.model.Player$Color getCurrentPlayerTurn()</p><p>public int getNumberOfMoves()</p><p>public hr.algebra.scythe.model.Player getRedPlayer()</p><p>public hr.algebra.scythe.model.Player getBluePlayer()</p><p>public void setBluePlayer(hr.algebra.scythe.model.Player arg0)</p><p>public void setNumberOfMoves(int arg0)</p><p>public void setRedPlayer(hr.algebra.scythe.model.Player arg0)</p><h1 class='class-name'>Color</h1>
+<h2 class='property-title'>Properties</h2>
+public static final Color RED<br>public static final Color BLUE<br>private static final Color[] $VALUES<br></div><h2 class='constructor-title'>Constructors</h2>
+<p>private Color(java.lang.String arg0, int arg1)</p>
+</div>
+<h2 class='method-title'>Methods</h2>
+<p>public static hr.algebra.scythe.model.Player$Color[] values()</p><p>public static hr.algebra.scythe.model.Player$Color valueOf(java.lang.String arg0)</p><p>private static hr.algebra.scythe.model.Player$Color[] $values()</p><h1 class='class-name'>Player</h1>
+<h2 class='property-title'>Properties</h2>
+private static final long serialVersionUID<br>private Color color<br>private final Soldier[] soldiers<br></div><h2 class='constructor-title'>Constructors</h2>
+<p>public Player(hr.algebra.scythe.model.Player$Color arg0)</p>
+</div>
+<h2 class='method-title'>Methods</h2>
+<p>public hr.algebra.scythe.model.Player$Color getColor()</p><p>public void resetAllSoldierResources()</p><p>public hr.algebra.scythe.model.Soldier getSoldier(int arg0)</p><p>public java.util.List getSoldiers()</p><p>public void setSoldierPosition(int arg0, int arg1, int arg2)</p><p>public int totalResources()</p><p>public void gatherResourcesFromTile(hr.algebra.scythe.model.Soldier arg0, hr.algebra.scythe.model.Tile arg1)</p><p>private int gatherRandomResources(int arg0, int arg1)</p><h1 class='class-name'>ResourceType</h1>
+<h2 class='property-title'>Properties</h2>
+public static final ResourceType WOOD<br>public static final ResourceType METAL<br>public static final ResourceType FOOD<br>private static final ResourceType[] $VALUES<br></div><h2 class='constructor-title'>Constructors</h2>
+<p>private ResourceType(java.lang.String arg0, int arg1)</p>
+</div>
+<h2 class='method-title'>Methods</h2>
+<p>public static hr.algebra.scythe.model.Resource$ResourceType[] values()</p><p>public static hr.algebra.scythe.model.Resource$ResourceType valueOf(java.lang.String arg0)</p><p>private static hr.algebra.scythe.model.Resource$ResourceType[] $values()</p><h1 class='class-name'>Resource</h1>
+<h2 class='property-title'>Properties</h2>
+private ResourceType resourceType<br></div><h2 class='constructor-title'>Constructors</h2>
+<p>public Resource(hr.algebra.scythe.model.Resource$ResourceType arg0)</p>
+</div>
+<h2 class='method-title'>Methods</h2>
+<p>public hr.algebra.scythe.model.Resource$ResourceType getResourceType()</p><p>public void setResourceType(hr.algebra.scythe.model.Resource$ResourceType arg0)</p><h1 class='class-name'>Soldier</h1>
+<h2 class='property-title'>Properties</h2>
+private static final long serialVersionUID<br>private Image image<br>private String imagePath<br>private int x<br>private int y<br>private int wood<br>private int metal<br>private int food<br>private final Color color<br></div><h2 class='constructor-title'>Constructors</h2>
+<p>public Soldier(hr.algebra.scythe.model.Player$Color arg0, int arg1, int arg2, int arg3)</p>
+</div>
+<h2 class='method-title'>Methods</h2>
+<p>public boolean equals(java.lang.Object arg0)</p><p>public int hashCode()</p><p>public javafx.scene.image.Image getImage()</p><p>public hr.algebra.scythe.model.Player$Color getColor()</p><p>public int getX()</p><p>public int getY()</p><p>public void setY(int arg0)</p><p>public void setX(int arg0)</p><p>public void addMetal(int arg0)</p><p>public int getWood()</p><p>public void setWood(int arg0)</p><p>public void addFood(int arg0)</p><p>public void setMetal(int arg0)</p><p>public void setFood(int arg0)</p><p>public int getFood()</p><p>public int getMetal()</p><p>public boolean isAt(int arg0, int arg1)</p><p>public void addWood(int arg0)</p><p>private javafx.scene.image.Image loadImageFromPath(java.lang.String arg0)</p><p>public void resetResources()</p><h1 class='class-name'>Type</h1>
+<h2 class='property-title'>Properties</h2>
+public static final Type VILLAGE<br>public static final Type FOREST<br>public static final Type MOUNTAIN<br>private final String imagePath<br>private Image image<br>private static final Type[] $VALUES<br></div><h2 class='constructor-title'>Constructors</h2>
+<p>private Type(java.lang.String arg0, int arg1, java.lang.String arg2)</p>
+</div>
+<h2 class='method-title'>Methods</h2>
+<p>public static hr.algebra.scythe.model.Tile$Type[] values()</p><p>public static hr.algebra.scythe.model.Tile$Type valueOf(java.lang.String arg0)</p><p>private static hr.algebra.scythe.model.Tile$Type[] $values()</p><p>public javafx.scene.image.Image getImage()</p><h1 class='class-name'>Tile</h1>
+<h2 class='property-title'>Properties</h2>
+private final Type type<br></div><h2 class='constructor-title'>Constructors</h2>
+<p>public Tile(hr.algebra.scythe.model.Tile$Type arg0)</p>
+</div>
+<h2 class='method-title'>Methods</h2>
+<p>public hr.algebra.scythe.model.Tile$Type getType()</p><p>public javafx.scene.image.Image getImage()</p><h1 class='class-name'>ScytheApplication</h1>
+<h2 class='property-title'>Properties</h2>
+private static final String CSS_PATH<br></div><h2 class='constructor-title'>Constructors</h2>
+<p>public ScytheApplication()</p>
+</div>
+<h2 class='method-title'>Methods</h2>
+<p>public static void main(java.lang.String[] arg0)</p><p>public void start(javafx.stage.Stage arg0)</p><h1 class='class-name'>BattleService</h1>
+<h2 class='property-title'>Properties</h2>
+private PlayerService playerService<br>private WindowUtil windowUtil<br>private ResourceService resourceService<br></div><h2 class='constructor-title'>Constructors</h2>
+<p>public BattleService(hr.algebra.scythe.util.PlayerService arg0, hr.algebra.scythe.util.WindowUtil arg1, hr.algebra.scythe.util.ResourceService arg2)</p>
+</div>
+<h2 class='method-title'>Methods</h2>
+<p>public boolean initiateAttack(hr.algebra.scythe.model.Soldier arg0, hr.algebra.scythe.model.Player arg1, int arg2, int arg3, int arg4, int arg5)</p><h1 class='class-name'>BoardService</h1>
+<h2 class='property-title'>Properties</h2>
+private static final ImageView[][] boardImages<br>private static GridPane gameBoard<br>private static TileClickHandler tileClickHandler<br>private Player playerRed<br>private Player playerBlue<br></div><h2 class='constructor-title'>Constructors</h2>
+<p>public BoardService(javafx.scene.layout.GridPane arg0, hr.algebra.scythe.util.TileClickHandler arg1, hr.algebra.scythe.model.Player arg2, hr.algebra.scythe.model.Player arg3)</p>
+<p>public BoardService()</p>
+</div>
+<h2 class='method-title'>Methods</h2>
+<p>public void setupBoard()</p><p>public static hr.algebra.scythe.model.Tile getTile(int arg0, int arg1)</p><p>private hr.algebra.scythe.model.Tile getTileByIndex(int arg0, int arg1)</p><p>public void updateBoard()</p><p>private void setImageForSoldier(int arg0, int arg1, hr.algebra.scythe.model.Player arg2)</p><p>public void updatePlayers(hr.algebra.scythe.model.Player arg0, hr.algebra.scythe.model.Player arg1)</p><p>private boolean isValidPosition(int arg0, int arg1)</p><p>private static void lambda$setupBoard$1(int arg0, int arg1, javafx.scene.input.MouseEvent arg2)</p><p>private void placePlayerSoldiers(hr.algebra.scythe.model.Player arg0)</p><p>public void placeSoldiersOnBoard()</p><p>public static void clearSoldiersFromBoard()</p><p>private static void lambda$placePlayerSoldiers$0(int arg0, int arg1, javafx.scene.input.MouseEvent arg2)</p><h1 class='class-name'>Constants</h1>
+<h2 class='property-title'>Properties</h2>
+public static final int BOARD_SIZE<br>public static final int[][] RED_SOLDIER_START_POSITIONS<br>public static final int[][] BLUE_SOLDIER_START_POSITIONS<br>public static final int TILE_WIDTH<br>public static final int TILE_HEIGHT<br>public static final int IMAGE_WIDTH<br>public static final int IMAGE_HEIGHT<br>public static final int ICON_SIZE<br>public static final int MARGIN<br>public static final String DICE_ROLL_PATH<br>public static final String PLAYER_IMAGE_PATH_FORMAT<br>public static final String VILLAGE_IMAGE_PATH<br>public static final String FOREST_IMAGE_PATH<br>public static final String MOUNTAIN_IMAGE_PATH<br>public static final String FOOD_ICON_PATH<br>public static final String WOOD_ICON_PATH<br>public static final String METAL_ICON_PATH<br>public static final String BATTLE_IMAGE_PATH<br></div><h2 class='constructor-title'>Constructors</h2>
+<p>public Constants()</p>
+</div>
+<h2 class='method-title'>Methods</h2>
+<h1 class='class-name'>DialogUtils</h1>
+<h2 class='property-title'>Properties</h2>
+</div><h2 class='constructor-title'>Constructors</h2>
+<p>public DialogUtils()</p>
+</div>
+<h2 class='method-title'>Methods</h2>
+<p>public static void showDialog(javafx.scene.control.Alert$AlertType arg0, java.lang.String arg1, java.lang.String arg2)</p><h1 class='class-name'>DocumentationUtils</h1>
+<h2 class='property-title'>Properties</h2>
+</div><h2 class='constructor-title'>Constructors</h2>
+<p>public DocumentationUtils()</p>
+</div>
+<h2 class='method-title'>Methods</h2>
+<p>public static void generateHtmlDocumentationFile()</p><p>private static boolean lambda$generateHtmlDocumentationFile$1(java.lang.String arg0)</p><p>private static boolean lambda$generateHtmlDocumentationFile$0(java.lang.String arg0)</p><h1 class='class-name'>FileUtils</h1>
+<h2 class='property-title'>Properties</h2>
+public static final String GAME_SAVE_FILE_NAME<br></div><h2 class='constructor-title'>Constructors</h2>
+<p>public FileUtils()</p>
+</div>
+<h2 class='method-title'>Methods</h2>
+<p>public static void saveGame(hr.algebra.scythe.model.Player$Color arg0, hr.algebra.scythe.model.Player arg1, hr.algebra.scythe.model.Player arg2, int arg3)</p><p>public static hr.algebra.scythe.model.GameState loadGame()</p><h1 class='class-name'>GameLogic</h1>
+<h2 class='property-title'>Properties</h2>
+</div><h2 class='constructor-title'>Constructors</h2>
+<p>public GameLogic()</p>
+</div>
+<h2 class='method-title'>Methods</h2>
+<p>public static void endGame(hr.algebra.scythe.util.PlayerService arg0, javafx.scene.layout.GridPane arg1)</p><p>public static boolean isAdjacent(hr.algebra.scythe.model.Soldier arg0, int arg1, int arg2)</p><p>public static void handleBattle(hr.algebra.scythe.model.Soldier arg0, hr.algebra.scythe.model.Player arg1, int arg2, int arg3, hr.algebra.scythe.util.PlayerService arg4, hr.algebra.scythe.util.BattleService arg5, java.util.Set arg6, javafx.scene.layout.GridPane arg7)</p><p>public static boolean isValidMove(int arg0, int arg1, int arg2)</p><h1 class='class-name'>MessageService</h1>
+<h2 class='property-title'>Properties</h2>
+</div><h2 class='constructor-title'>Constructors</h2>
+<p>public MessageService()</p>
+</div>
+<h2 class='method-title'>Methods</h2>
+<p>public static void displayEndGameMessage(hr.algebra.scythe.model.Player arg0, int arg1, int arg2)</p><h1 class='class-name'>PlayerService</h1>
+<h2 class='property-title'>Properties</h2>
+private static Player playerRed<br>private static Player playerBlue<br>private BoardService boardService<br></div><h2 class='constructor-title'>Constructors</h2>
+<p>public PlayerService(hr.algebra.scythe.util.BoardService arg0)</p>
+<p>public PlayerService()</p>
+</div>
+<h2 class='method-title'>Methods</h2>
+<p>public boolean isTileOccupiedBySameColor(hr.algebra.scythe.model.Player arg0, int arg1, int arg2)</p><p>public boolean isTileOccupiedByOpponent(hr.algebra.scythe.model.Player arg0, int arg1, int arg2)</p><p>public static void moveSelectedSoldierTo(hr.algebra.scythe.model.Soldier arg0, int arg1, int arg2, hr.algebra.scythe.util.ResourceService arg3, javafx.scene.layout.GridPane arg4)</p><p>public static hr.algebra.scythe.model.Player getPlayerBlue()</p><p>public void initializePlayers()</p><p>public void setPlayersOnBoard()</p><p>public hr.algebra.scythe.model.Soldier getSelectedSoldier(int arg0, int arg1, hr.algebra.scythe.model.Soldier arg2)</p><p>public void updatePlayers(hr.algebra.scythe.model.Player arg0, hr.algebra.scythe.model.Player arg1)</p><p>public static hr.algebra.scythe.model.Player getPlayerRed()</p><p>private void setSoldierPositions(hr.algebra.scythe.model.Player arg0, int[][] arg1)</p><p>public static void returnAttackerToOriginalPosition(hr.algebra.scythe.model.Soldier arg0, int arg1, int arg2)</p><p>public static void returnSoldierToOriginalPosition(hr.algebra.scythe.model.Soldier arg0, int arg1, int arg2)</p><h1 class='class-name'>ResourceDisplay</h1>
+<h2 class='property-title'>Properties</h2>
+</div><h2 class='constructor-title'>Constructors</h2>
+<p>public ResourceDisplay()</p>
+</div>
+<h2 class='method-title'>Methods</h2>
+<p>public static void updateAllPlayerInfo(java.util.List arg0, javafx.scene.layout.GridPane arg1)</p><p>public static javafx.scene.layout.HBox createResourceBox(hr.algebra.scythe.model.Soldier arg0)</p><p>private static javafx.scene.image.ImageView createSoldierImage(hr.algebra.scythe.model.Soldier arg0)</p><p>private static javafx.scene.layout.HBox createResourceIconBox(java.lang.String arg0, int arg1, double arg2)</p><h1 class='class-name'></h1>
+<h2 class='property-title'>Properties</h2>
+static final int[] $SwitchMap$hr$algebra$scythe$model$Tile$Type<br></div><h2 class='constructor-title'>Constructors</h2>
+</div>
+<h2 class='method-title'>Methods</h2>
+<h1 class='class-name'>ResourceService</h1>
+<h2 class='property-title'>Properties</h2>
+</div><h2 class='constructor-title'>Constructors</h2>
+<p>public ResourceService()</p>
+</div>
+<h2 class='method-title'>Methods</h2>
+<p>public void gatherResourcesFromTile(hr.algebra.scythe.model.Soldier arg0, hr.algebra.scythe.model.Tile arg1)</p><p>public static int gatherRandomResources(int arg0, int arg1)</p><p>public static void transferResources(hr.algebra.scythe.model.Soldier arg0, hr.algebra.scythe.model.Soldier arg1)</p><h1 class='class-name'>TileClickHandler</h1>
+<h2 class='property-title'>Properties</h2>
+</div><h2 class='constructor-title'>Constructors</h2>
+</div>
+<h2 class='method-title'>Methods</h2>
+<p>public abstract void handle(int arg0, int arg1)</p><h1 class='class-name'>WindowUtil</h1>
+<h2 class='property-title'>Properties</h2>
+</div><h2 class='constructor-title'>Constructors</h2>
+<p>public WindowUtil()</p>
+</div>
+<h2 class='method-title'>Methods</h2>
+<p>public int[] openDiceRollWindow()</p></div></body>
+</html>

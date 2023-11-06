@@ -46,14 +46,14 @@
           <Menu mnemonicParsing="false" text="Game">
             <items>
               <MenuItem mnemonicParsing="false" text="New" onAction="#handleNewGame"/>
-                <MenuItem mnemonicParsing="false" text="Save" />
-                <MenuItem mnemonicParsing="false" text="Load" />
+                <MenuItem mnemonicParsing="false" text="Save" onAction="#saveGame"/>
+                <MenuItem mnemonicParsing="false" text="Load" onAction="#loadGame"/>
                 <MenuItem mnemonicParsing="false" text="Exit" onAction="#handleExit" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Documentation">
             <items>
-              <MenuItem mnemonicParsing="false" text="Create documentation" />
+              <MenuItem mnemonicParsing="false" text="Create documentation" onAction="#generateHtmlDocumentation"/>
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Help">

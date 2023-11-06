@@ -2,20 +2,32 @@ package hr.algebra.scythe.util;
 
 import hr.algebra.scythe.model.Soldier;
 import hr.algebra.scythe.model.Player;
+import hr.algebra.scythe.model.Tile;
+import javafx.scene.layout.GridPane;
 
-
+import java.util.List;
 
 
 public class PlayerService {
 
-    private final Player playerRed = new Player(Player.Color.RED);
-    private final Player playerBlue = new Player(Player.Color.BLUE);
+    private static Player playerRed;
+    private static Player playerBlue;
 
+    private BoardService boardService;
+
+    public PlayerService(BoardService boardService) {
+        this.boardService = boardService;
+        this.playerRed = new Player(Player.Color.RED);
+        this.playerBlue = new Player(Player.Color.BLUE);
+    }
+
+    public PlayerService() {
+        this(new BoardService());
+    }
 
     public void initializePlayers() {
         setSoldierPositions(playerRed, Constants.RED_SOLDIER_START_POSITIONS);
         setSoldierPositions(playerBlue, Constants.BLUE_SOLDIER_START_POSITIONS);
-
     }
 
     private void setSoldierPositions(Player player, int[][] positions) {
@@ -36,6 +48,19 @@ public class PlayerService {
         return null;
     }
 
+    public void updatePlayers(Player updatedPlayerRed, Player updatedPlayerBlue) {
+        this.playerRed = updatedPlayerRed;
+        this.playerBlue = updatedPlayerBlue;
+        setPlayersOnBoard();
+    }
+
+
+
+
+    public void setPlayersOnBoard() {
+
+        boardService.updateBoard();
+    }
 
 
     public boolean isTileOccupiedBySameColor(Player currentPlayer, int x, int y) {
@@ -57,11 +82,11 @@ public class PlayerService {
         }
         return false;
     }
-    public Player getPlayerRed() {
+    public static Player getPlayerRed() {
         return playerRed;
     }
 
-    public Player getPlayerBlue() {
+    public static Player getPlayerBlue() {
         return playerBlue;
     }
 
@@ -74,6 +99,17 @@ public class PlayerService {
         soldier.setX(originalX);
         soldier.setY(originalY);
     }
+
+    public static void moveSelectedSoldierTo(Soldier selectedSoldier, int x, int y, ResourceService resourceService, GridPane allPlayersGrid) {
+        if (GameLogic.isValidMove(x, y, Constants.BOARD_SIZE)) {
+            selectedSoldier.setX(x);
+            selectedSoldier.setY(y);
+            Tile tileOnPosition = BoardService.getTile(x, y);
+            resourceService.gatherResourcesFromTile(selectedSoldier, tileOnPosition);
+            ResourceDisplay.updateAllPlayerInfo(List.of(getPlayerRed(), getPlayerBlue()), allPlayersGrid);
+        }
+    }
+
 
 
 }
