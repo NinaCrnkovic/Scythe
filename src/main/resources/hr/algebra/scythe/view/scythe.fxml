@@ -13,9 +13,12 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextArea?>
 <BorderPane fx:id="borderPane"
             prefHeight="770.0"
-            prefWidth="1100.0"
+            prefWidth="1500.0"
             xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml/1"
             stylesheets="@style/scythe.css"
@@ -76,5 +79,7 @@
 
 
     </left>
+    <right>
+    </right>
 
 </BorderPane>

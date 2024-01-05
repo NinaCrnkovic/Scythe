@@ -65,25 +65,25 @@ public class DocumentationUtils {
 
                     if(Modifier.isPublic(modifiers)) {
                         htmlHeader += "public ";
-                        //System.out.print("public ");
+
                     }
                     else if (Modifier.isPrivate(modifiers)) {
                         htmlHeader += "private ";
-                        //System.out.print("private ");
+
                     }
                     else if (Modifier.isProtected(modifiers)) {
                         htmlHeader += "protected ";
-                        //System.out.print("protected ");
+
                     }
 
                     if(Modifier.isStatic(modifiers)) {
                         htmlHeader += "static ";
-                        //System.out.print("static ");
+
                     }
 
                     if(Modifier.isFinal(modifiers)) {
                         htmlHeader += "final ";
-                        //System.out.print("final ");
+
                     }
 
                     String type = field.getType().getSimpleName();
@@ -93,7 +93,7 @@ public class DocumentationUtils {
                     String name = field.getName();
 
                     htmlHeader += name + "<br>";
-                    //System.out.println(name + " ");
+
                     htmlHeader += "</p>\n";
 
                 }
@@ -109,7 +109,7 @@ public class DocumentationUtils {
                     // Add modifiers
                     htmlHeader += Modifier.toString(modifiers) + " ";
 
-                    // Add the name of the constructor (which is the simple name of the class)
+
                     htmlHeader += deserializedClass.getSimpleName();
 
                     // Add parameters
@@ -124,9 +124,9 @@ public class DocumentationUtils {
                     }
                     htmlHeader += ")";
 
-                    htmlHeader += "</p>\n"; // End of paragraph for constructor
+                    htmlHeader += "</p>\n";
                 }
-                htmlHeader += "</div>\n"; // Assuming this closes the section for constructors
+                htmlHeader += "</div>\n";
 
 
                 htmlHeader += "<h3 class='method-title'>Methods</h3>\n";
@@ -158,9 +158,9 @@ public class DocumentationUtils {
                     }
                     htmlHeader += ")";
 
-                    htmlHeader += "</p>"; // End of paragraph for method
+                    htmlHeader += "</p>";
                 }
-                htmlHeader += "</div>"; // Assuming this closes the section for methods
+                htmlHeader += "</div>";
             }
 
             String htmlFooter = """

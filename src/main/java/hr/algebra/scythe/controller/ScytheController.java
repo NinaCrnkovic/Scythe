@@ -7,6 +7,9 @@ import hr.algebra.scythe.util.*;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -24,15 +27,22 @@ public class ScytheController {
     @FXML
     private GridPane allPlayersGrid;
 
+    @FXML
+    private TextField textField;
+    @FXML
+    private Button chatButton;
+    @FXML
+    private TextArea textArea;
+
     private Soldier selectedSoldier;
     private Soldier lastSoldierMoved = null;
 
-    private final PlayerService playerService = new PlayerService();
+    private static final PlayerService playerService = new PlayerService();
     private final WindowUtil windowUtil = new WindowUtil();
     private final ResourceService resourceService = new ResourceService();
-    private BoardService boardService;
+    private static BoardService boardService;
     private BattleService battleService;
-    private Player currentPlayer;
+    private static Player currentPlayer;
     private int movesMade;
 
     private int totalTurns = 0;
@@ -43,15 +53,17 @@ public class ScytheController {
 
     Set<Soldier> soldiersAttacked = new HashSet<>();
 
-    private Player redPlayer;
-    private Player bluePlayer;
-    private Player.Color currentPlayerTurn;
-    private int numberOfMoves;
+    private static Player redPlayer;
+    private static Player bluePlayer;
+    private static Player.Color currentPlayerTurn;
+    private static int numberOfMoves;
+
+
 
     public void initialize() {
         playerService.initializePlayers();
-        redPlayer = playerService.getPlayerRed();
-        bluePlayer = playerService.getPlayerBlue();
+        redPlayer = PlayerService.getPlayerRed();
+        bluePlayer = PlayerService.getPlayerBlue();
         currentPlayer = redPlayer;
         currentPlayerTurn = currentPlayer.getColor();
 
@@ -78,29 +90,32 @@ public class ScytheController {
             if (selectedSoldier != null && (selectedSoldier.getColor() != currentPlayer.getColor() || soldiersMoved.contains(selectedSoldier))) {
                 selectedSoldier = null;
             }
-            System.out.println("klik.");
+
 
     } else {
             if (GameLogic.isAdjacent(selectedSoldier, x, y)) {
                 if (!playerService.isTileOccupiedBySameColor(currentPlayer, x, y)) {
                     if (playerService.isTileOccupiedByOpponent(currentPlayer, x, y)) {
                         GameLogic.handleBattle(selectedSoldier, currentPlayer, x, y, playerService, battleService, soldiersMoved, allPlayersGrid);
-                        ResourceDisplay.updateAllPlayerInfo(List.of(playerService.getPlayerRed(), playerService.getPlayerBlue()), allPlayersGrid);
-                        System.out.println("klik.");
+                        ResourceDisplay.updateAllPlayerInfo(List.of(PlayerService.getPlayerRed(), PlayerService.getPlayerBlue()), allPlayersGrid);
+
                     } else {
-                        playerService.moveSelectedSoldierTo(selectedSoldier, x, y, resourceService, allPlayersGrid);
+                        PlayerService.moveSelectedSoldierTo(selectedSoldier, x, y, resourceService, allPlayersGrid);
 
                         soldiersMoved.add(selectedSoldier);
-                        System.out.println("klik.");
+
                     }
                     selectedSoldier = null;
                     if (soldiersMoved.size() == 3) {
                         switchPlayer();
                         soldiersMoved.clear();
-                        System.out.println("klik.");
+
                     }
                 }
             }
+            GameState gameState = GameStateUtils.createGameState(currentPlayerTurn, redPlayer, bluePlayer, numberOfMoves);
+            NetworkingUtils.sendGameStateToServer(gameState);
+
         }
         boardService.updateBoard();
     }
@@ -156,14 +171,7 @@ public class ScytheController {
     private void loadGame() {
         try {
             GameState loadedGameState = FileUtils.loadGame();
-            currentPlayerTurn = loadedGameState.getCurrentPlayerTurn();
-            redPlayer = loadedGameState.getRedPlayer();
-            bluePlayer = loadedGameState.getBluePlayer();
-            numberOfMoves = loadedGameState.getNumberOfMoves();
-            currentPlayer = (currentPlayerTurn == Player.Color.RED) ? redPlayer : bluePlayer;
-            playerService.updatePlayers(redPlayer, bluePlayer);
-            boardService.updatePlayers(redPlayer, bluePlayer);
-            boardService.updateBoard();// This sets up the grid and tiles
+            updateGameBoard(loadedGameState);
             ResourceDisplay.updateAllPlayerInfo(List.of(redPlayer, bluePlayer), allPlayersGrid);
 
 
@@ -171,6 +179,19 @@ public class ScytheController {
             ex.printStackTrace();
 
         }
+    }
+
+    public  void updateGameBoard(GameState gameState){
+        currentPlayerTurn = gameState.getCurrentPlayerTurn();
+        redPlayer = gameState.getRedPlayer();
+        bluePlayer = gameState.getBluePlayer();
+        numberOfMoves = gameState.getNumberOfMoves();
+        currentPlayer = (currentPlayerTurn == Player.Color.RED) ? redPlayer : bluePlayer;
+        playerService.updatePlayers(redPlayer, bluePlayer);
+        boardService.updatePlayers(redPlayer, bluePlayer);
+        boardService.updateBoard();// This sets up the grid and tiles
+        ResourceDisplay.updateAllPlayerInfo(List.of(redPlayer, bluePlayer), allPlayersGrid);
+        //ovdje je prebačen allPlayersGrid u static, ako će biti problema zašto ne radi
     }
 
 
