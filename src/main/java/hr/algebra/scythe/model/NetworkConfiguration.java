@@ -2,7 +2,11 @@ package hr.algebra.scythe.model;
 
 public class NetworkConfiguration {
     public static final Integer SERVER_PORT = 1989;
-    public static final Integer CLIENT_PORT = 8080;
+    public static final Integer CLIENT_PORT = 1990;
+
+    public static final Integer CLIENT_DICE = 1991;
+
+    public static final Integer SERVER_DICE = 1992;
     public static final String HOST = "localhost";
     public static final int RANDOM_PORT_HINT = 0;
     public static final int RMI_PORT = 1099;

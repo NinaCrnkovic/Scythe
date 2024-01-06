@@ -1,7 +1,9 @@
 package hr.algebra.scythe.util;
 
+import hr.algebra.scythe.ScytheApplication;
 import hr.algebra.scythe.model.GameState;
 import hr.algebra.scythe.model.NetworkConfiguration;
+import hr.algebra.scythe.model.RoleName;
 import hr.algebra.scythe.networking.Country;
 import hr.algebra.scythe.networking.Server;
 
@@ -24,6 +26,19 @@ public class NetworkingUtils {
         }
     }
 
+    public static void sendGameStateToClient(GameState gameState) {
+
+        try (Socket clientSocket = new Socket(NetworkConfiguration.HOST, NetworkConfiguration.CLIENT_PORT)){
+            System.err.println("Client is connecting to " + clientSocket.getInetAddress() + ":" +clientSocket.getPort());
+
+
+            sendSerializableRequest(clientSocket, gameState);
+
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
     private static void sendSerializableRequest(Socket client, GameState gameState) throws IOException, ClassNotFoundException {
         ObjectOutputStream oos = new ObjectOutputStream(client.getOutputStream());
         ObjectInputStream ois = new ObjectInputStream(client.getInputStream());
@@ -34,5 +49,28 @@ public class NetworkingUtils {
 
 
 
+    }
+
+    public static void sendDiceRollRequestToClient(String message) {
+        try (Socket clientSocket = new Socket(NetworkConfiguration.HOST,
+                ScytheApplication.loggedInRoleName == RoleName.CLIENT ?
+                        NetworkConfiguration.SERVER_PORT : NetworkConfiguration.CLIENT_PORT)) {
+            ObjectOutputStream oos = new ObjectOutputStream(clientSocket.getOutputStream());
+            oos.writeObject(message);
+            oos.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public static void sendDiceRollRequestToServer(String message) {
+        try (Socket clientSocket = new Socket(NetworkConfiguration.HOST,
+                ScytheApplication.loggedInRoleName == RoleName.SERVER ?
+                        NetworkConfiguration.SERVER_PORT : NetworkConfiguration.CLIENT_PORT)) {
+            ObjectOutputStream oos = new ObjectOutputStream(clientSocket.getOutputStream());
+            oos.writeObject(message);
+            oos.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

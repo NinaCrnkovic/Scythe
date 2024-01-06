@@ -21,6 +21,8 @@ public class MessageService {
         message.append("Blue Player had ").append(blueResources).append(" resources.");
 
         alert.setContentText(message.toString());
+
+
         alert.showAndWait();
 
     }

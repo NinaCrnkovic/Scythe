@@ -3,10 +3,12 @@ package hr.algebra.scythe;
 import hr.algebra.scythe.controller.ScytheController;
 import hr.algebra.scythe.model.GameState;
 import hr.algebra.scythe.model.NetworkConfiguration;
+import hr.algebra.scythe.model.Player;
 import hr.algebra.scythe.model.RoleName;
-import hr.algebra.scythe.networking.Country;
-import hr.algebra.scythe.networking.Server;
+import hr.algebra.scythe.util.NetworkingUtils;
+
 import hr.algebra.scythe.util.BoardService;
+import hr.algebra.scythe.util.WindowUtil;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -18,8 +20,7 @@ import javafx.stage.Stage;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.rmi.registry.Registry;
-import java.util.Objects;
+
 
 
 
@@ -27,8 +28,6 @@ import java.util.Objects;
 public class ScytheApplication extends Application {
     private static ScytheApplication instance;
 
-    @FXML
-    private static GridPane allPlayersGrid;
 
     private static final String CSS_PATH = "/view/styles/scythe.css";
     public static RoleName loggedInRoleName;
@@ -69,20 +68,20 @@ public class ScytheApplication extends Application {
         }
 
         new Thread(Application::launch).start();
-        acceptRequests();
+
 
         if (loggedInRoleName == RoleName.SERVER) {
             //startChatService();
-            //acceptRequestsAsServer();
-            acceptRequests();
-        /*} else {
+            acceptRequestsAsServer();
+
+        } else {
             //startChatClient();
-            //acceptRequestsAsClient();
-            sendRequest();*/
+            acceptRequestsAsClient();
+
         }
     }
 
-    private static void acceptRequests() {
+    private static void acceptRequestsAsServer() {
         try (ServerSocket serverSocket = new ServerSocket(NetworkConfiguration.SERVER_PORT)){
             System.err.println("Server listening on port: " + serverSocket.getLocalPort());
 
@@ -97,20 +96,51 @@ public class ScytheApplication extends Application {
         }
     }
 
+    private static void acceptRequestsAsClient() {
+        try (ServerSocket serverSocket = new ServerSocket(NetworkConfiguration.CLIENT_PORT)){
+            System.err.println("Server listening on port: " + serverSocket.getLocalPort());
+
+            while (true) {
+                Socket clientSocket = serverSocket.accept();
+                System.err.println("Client connected from port: " + clientSocket.getPort());
+
+                new Thread(() ->  processSerializableClient(clientSocket)).start();
+            }
+        }  catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     private static void processSerializableClient(Socket clientSocket) {
-        try (ObjectInputStream ois = new ObjectInputStream(clientSocket.getInputStream());
-             ObjectOutputStream oos = new ObjectOutputStream(clientSocket.getOutputStream());){
+        try (ObjectOutputStream oos = new ObjectOutputStream(clientSocket.getOutputStream());
+             ObjectInputStream ois = new ObjectInputStream(clientSocket.getInputStream())) {
+
             GameState gameState = (GameState) ois.readObject();
             Platform.runLater(() -> {
                 ScytheApplication app = ScytheApplication.getInstance();
                 ScytheController scytheController = app.getController();
                 scytheController.updateGameBoard(gameState);
             });
-
 
             System.out.println("The game state received");
-
             oos.writeObject("The game state received confirmation");
+            oos.flush();  // Ensure the data is sent
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        try (ObjectInputStream ois = new ObjectInputStream(clientSocket.getInputStream())) {
+            Object message = ois.readObject();
+
+            if (message instanceof String && message.toString().startsWith("INITIATE_DICE_ROLL")) {
+                Player.Color playerColor = message.toString().endsWith("FOR_SERVER") ? Player.Color.RED : Player.Color.BLUE;
+                Platform.runLater(() -> {
+                    ScytheApplication.getInstance().getController().showDiceRollWindow();
+                });
+
+
+
+        } else if (message instanceof GameState) {
+                // Existing game state handling code
+            }
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -118,72 +148,6 @@ public class ScytheApplication extends Application {
 
 
 
-   /* private static void startChatClient() {
-        try {
-            Registry registry = LocateRegistry.getRegistry(NetworkConfiguration.HOST, NetworkConfiguration.RMI_PORT);
-            chatRemoteService = (ChatRemoteService) registry.lookup(ChatRemoteService.REMOTE_CHAT_OBJECT_NAME);
-        } catch (RemoteException | NotBoundException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
-    private static void startChatService() {
-        try {
-            Registry registry = LocateRegistry.createRegistry(NetworkConfiguration.RMI_PORT);
-            ChatRemoteService chatRemoteService = new ChatRemoteServiceImpl();
-            ChatRemoteService skeleton = (ChatRemoteService) UnicastRemoteObject.exportObject(chatRemoteService,
-                    NetworkConfiguration.RANDOM_PORT_HINT);
-            registry.rebind(ChatRemoteService.REMOTE_CHAT_OBJECT_NAME, skeleton);
-            System.err.println("Object registered in RMI registry");
-        } catch (
-                RemoteException e) {
-            e.printStackTrace();
-        }
-    }*/
 
-   /* private static void acceptRequestsAsServer() {
-        try (ServerSocket serverSocket = new ServerSocket(NetworkConfiguration.SERVER_PORT)) {
-            System.err.println("Server listening on port: " + serverSocket.getLocalPort());
-
-            while (true) {
-                Socket clientSocket = serverSocket.accept();
-                System.err.println("Client connected from port: " + clientSocket.getPort());
-                new Thread(() -> processSerializableClient(clientSocket)).start();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private static void acceptRequestsAsClient() {
-        try (ServerSocket serverSocket = new ServerSocket(NetworkConfiguration.CLIENT_PORT)) {
-            System.err.println("Server listening on port: " + serverSocket.getLocalPort());
-
-            while (true) {
-                Socket clientSocket = serverSocket.accept();
-                System.err.println("Client connected from port: " + clientSocket.getPort());
-                new Thread(() -> processSerializableClient(clientSocket)).start();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private static void processSerializableClient(Socket clientSocket) {
-        try (ObjectInputStream ois = new ObjectInputStream(clientSocket.getInputStream());
-             ObjectOutputStream oos = new ObjectOutputStream(clientSocket.getOutputStream())) {
-            GameState gameState = (GameState) ois.readObject();
-
-            Platform.runLater(() -> {
-                ScytheApplication app = ScytheApplication.getInstance();
-                ScytheController scytheController = app.getController();
-                scytheController.updateGameBoard(gameState);
-            });
-
-            System.out.println("Game state received!");
-            oos.writeObject("Game state received confirmation!");
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-    }*/
 }

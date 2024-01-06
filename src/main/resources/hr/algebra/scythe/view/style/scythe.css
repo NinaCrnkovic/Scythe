@@ -1,28 +1,28 @@
-
-.red-button {
-    -fx-background-color: red;
-    -fx-text-fill: white;
+/* Osnovni stil za naslov */
+.title-label {
+    -fx-font-size: 24px;
     -fx-font-weight: bold;
 }
 
-
-.blue-button {
-    -fx-background-color: blue;
-    -fx-text-fill: white;
-    -fx-font-weight: bold;
-
-}
-
-.red-player {
+/* Stil za rezultat crvenog igrača */
+.red-label {
     -fx-text-fill: red;
     -fx-font-weight: bold;
     -fx-font-size: 18px;
 }
 
-.blue-player {
+/* Stil za rezultat plavog igrača */
+.blue-label {
     -fx-text-fill: blue;
     -fx-font-weight: bold;
     -fx-font-size: 18px;
 }
+
+/* Stil za prikaz rezultata igre */
+.result-label {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
 
 

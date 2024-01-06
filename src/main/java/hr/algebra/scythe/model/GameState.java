@@ -13,11 +13,26 @@ public class GameState implements Serializable {
     private Player bluePlayer;
     private int numberOfMoves;
 
-    public GameState(Player.Color currentPlayerTurn, Player redPlayer, Player bluePlayer, int numberOfMoves) {
+    public boolean isGameOver() {
+        return isGameOver;
+    }
+
+    public void setGameOver(boolean gameOver) {
+        isGameOver = gameOver;
+    }
+
+    private boolean isGameOver;
+
+
+
+
+
+    public GameState(Player.Color currentPlayerTurn, Player redPlayer, Player bluePlayer, int numberOfMoves, boolean isGameOver) {
         this.currentPlayerTurn = currentPlayerTurn;
         this.redPlayer = redPlayer;
         this.bluePlayer = bluePlayer;
         this.numberOfMoves = numberOfMoves;
+        this.isGameOver = isGameOver;
     }
 
     // Getters and setters
@@ -53,6 +68,7 @@ public class GameState implements Serializable {
     public void setNumberOfMoves(int numberOfMoves) {
         this.numberOfMoves = numberOfMoves;
     }
+
 
 
 }

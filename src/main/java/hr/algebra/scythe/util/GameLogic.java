@@ -8,11 +8,6 @@ import java.util.Set;
 
 public class GameLogic {
 
-
-
-
-
-
     public static boolean isAdjacent(Soldier soldier, int x, int y) {
         int dx = x - soldier.getX();
         int dy = y - soldier.getY();
@@ -23,31 +18,35 @@ public class GameLogic {
         return x >= 0 && x < boardSize && y >= 0 && y < boardSize;
     }
 
-    public static void handleBattle(Soldier selectedSoldier, Player currentPlayer, int x, int y,
-                                    PlayerService playerService,
-                                    BattleService battleService,
-                                    Set<Soldier> soldiersMoved,
-                                    GridPane allPlayersGrid) {
 
+
+    public static void handleBattle(Soldier selectedSoldier, Player currentPlayer, int x, int y,
+                                    PlayerService playerService, BattleService battleService,
+                                    Set<Soldier> soldiersMoved, GridPane allPlayersGrid) {
         Soldier defender = playerService.getSelectedSoldier(x, y, null);
         int attackerOldX = selectedSoldier.getX();
         int attackerOldY = selectedSoldier.getY();
 
+        // Pokreni prozor za bacanje kockica za oba igrača
+        //battleService.initiateDiceRoll();
+
+
         boolean attackMade = battleService.initiateAttack(selectedSoldier, currentPlayer, x, y, attackerOldX, attackerOldY);
         if (attackMade) {
-            soldiersMoved.add(selectedSoldier); // Dodajemo vojnika koji je napao u skup
+            soldiersMoved.add(selectedSoldier); // Dodaj napadačkog vojnika u skup
         }
         playerService.returnSoldierToOriginalPosition(selectedSoldier, attackerOldX, attackerOldY);
-        selectedSoldier = null;
+
 
         if (defender != null) {
             playerService.returnSoldierToOriginalPosition(defender, x, y);
         }
-
         ResourceDisplay.updateAllPlayerInfo(List.of(playerService.getPlayerRed(), playerService.getPlayerBlue()), allPlayersGrid);
+
     }
 
-    public static void endGame(PlayerService playerService, GridPane allPlayersGrid) {
+
+    /*public static void endGame(PlayerService playerService, GridPane allPlayersGrid) {
         int redResources = playerService.getPlayerRed().totalResources();
         int blueResources = playerService.getPlayerBlue().totalResources();
 
@@ -63,7 +62,21 @@ public class GameLogic {
         MessageService.displayEndGameMessage(winner, redResources, blueResources);
 
         ResourceDisplay.updateAllPlayerInfo(List.of(playerService.getPlayerRed(), playerService.getPlayerBlue()), allPlayersGrid);
+    }*/
+
+    public static Player endGame(PlayerService playerService) {
+        int redResources = playerService.getPlayerRed().totalResources();
+        int blueResources = playerService.getPlayerBlue().totalResources();
+
+        if (redResources > blueResources) {
+            return playerService.getPlayerRed();
+        } else if (blueResources > redResources) {
+            return playerService.getPlayerBlue();
+        } else {
+            return null; // It's a tie
+        }
     }
+
 
 
 }

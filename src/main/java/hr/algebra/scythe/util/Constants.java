@@ -3,7 +3,7 @@ package hr.algebra.scythe.util;
 public class Constants {
     public static final int BOARD_SIZE = 6;
 
-    public static final int[][] RED_SOLDIER_START_POSITIONS = {
+    /*public static final int[][] RED_SOLDIER_START_POSITIONS = {
             {0, 0},
             {0, 1},
             {1, 0}
@@ -13,7 +13,20 @@ public class Constants {
             {5, 5},
             {4, 5},
             {5, 4}
+    };*/
+
+    public static final int[][] RED_SOLDIER_START_POSITIONS = {
+            {2, 2}, // Srednji lijevi kvadrat
+            {2, 3}, // Srednji desni kvadrat
+            {3, 2}  // Donji srednji kvadrat
     };
+
+    public static final int[][] BLUE_SOLDIER_START_POSITIONS = {
+            {3, 3}, // Donji desni kvadrat (dijagonalno suprotan crvenom)
+            {3, 4}, // Desni kvadrat, jedan red ispod
+            {4, 3}  // Donji kvadrat, jedan red ispod
+    };
+
     public static final int TILE_WIDTH= 120;
     public static final int TILE_HEIGHT= 120;
 
@@ -33,7 +46,7 @@ public class Constants {
     public static final String WOOD_ICON_PATH = "/hr/algebra/scythe/view/images/woodIcon.png";
     public static final String METAL_ICON_PATH = "/hr/algebra/scythe/view/images/metalIcon.png";
 
-    public static final String BATTLE_IMAGE_PATH = "/hr/algebra/scythe/view/images/fight.png";
+
 
 
 
