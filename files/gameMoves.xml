@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<gameMoves>
+    <gameMove>
+        <player>RED</player>
+        <location_x>3</location_x>
+        <location_y>1</location_y>
+        <dateTime>13.01.2024 18:54:58</dateTime>
+    </gameMove>
+    <gameMove>
+        <player>RED</player>
+        <location_x>2</location_x>
+        <location_y>1</location_y>
+        <dateTime>13.01.2024 18:55:03</dateTime>
+    </gameMove>
+    <gameMove>
+        <player>RED</player>
+        <location_x>2</location_x>
+        <location_y>2</location_y>
+        <dateTime>13.01.2024 18:55:05</dateTime>
+    </gameMove>
+    <gameMove>
+        <player>BLUE</player>
+        <location_x>4</location_x>
+        <location_y>2</location_y>
+        <dateTime>13.01.2024 18:55:14</dateTime>
+    </gameMove>
+    <gameMove>
+        <player>BLUE</player>
+        <location_x>4</location_x>
+        <location_y>3</location_y>
+        <dateTime>13.01.2024 18:55:17</dateTime>
+    </gameMove>
+    <gameMove>
+        <player>BLUE</player>
+        <location_x>3</location_x>
+        <location_y>3</location_y>
+        <dateTime>13.01.2024 18:55:19</dateTime>
+    </gameMove>
+    <gameMove>
+        <player>RED</player>
+        <location_x>4</location_x>
+        <location_y>1</location_y>
+        <dateTime>13.01.2024 18:55:23</dateTime>
+    </gameMove>
+    <gameMove>
+        <player>RED</player>
+        <location_x>3</location_x>
+        <location_y>1</location_y>
+        <dateTime>13.01.2024 18:55:27</dateTime>
+    </gameMove>
+    <gameMove>
+        <player>RED</player>
+        <location_x>3</location_x>
+        <location_y>2</location_y>
+        <dateTime>13.01.2024 18:55:30</dateTime>
+    </gameMove>
+    <gameMove>
+        <player>BLUE</player>
+        <location_x>4</location_x>
+        <location_y>1</location_y>
+        <dateTime>13.01.2024 18:55:33</dateTime>
+    </gameMove>
+    <gameMove>
+        <player>BLUE</player>
+        <location_x>3</location_x>
+        <location_y>2</location_y>
+        <dateTime>13.01.2024 18:55:41</dateTime>
+    </gameMove>
+    <gameMove>
+        <player>BLUE</player>
+        <location_x>5</location_x>
+        <location_y>3</location_y>
+        <dateTime>13.01.2024 18:55:43</dateTime>
+    </gameMove>
+    <gameMove>
+        <player>RED</player>
+        <location_x>4</location_x>
+        <location_y>2</location_y>
+        <dateTime>13.01.2024 18:55:47</dateTime>
+    </gameMove>
+    <gameMove>
+        <player>RED</player>
+        <location_x>5</location_x>
+        <location_y>1</location_y>
+        <dateTime>13.01.2024 18:55:52</dateTime>
+    </gameMove>
+    <gameMove>
+        <player>RED</player>
+        <location_x>4</location_x>
+        <location_y>1</location_y>
+        <dateTime>13.01.2024 18:55:54</dateTime>
+    </gameMove>
+</gameMoves>

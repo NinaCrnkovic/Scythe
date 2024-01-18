@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<VBox alignment="CENTER"
+      spacing="20" prefHeight="300.0"
+      prefWidth="300.0"
+      xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="hr.algebra.scythe.controller.DiceRollController"
+      stylesheets="@style/scythe.css"
+      styleClass="vbox-background">
+    <Label text="Battle!!" styleClass="title-label" />
+    <Label fx:id="redPlayerResult" text="Red: 0" styleClass="red-label" />
+    <Label fx:id="bluePlayerResult" text="Blue: 0" styleClass="blue-label" />
+    <Label fx:id="gameResult" text="" styleClass="result-label" />
+</VBox>

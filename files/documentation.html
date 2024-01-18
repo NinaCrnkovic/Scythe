@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Project Documentation</title>
+<style>
+    body { font-family: Arial, sans-serif; }
+    .main-title {
+            color: #ff0000;
+            text-align: center;
+        }
+    .class-name { color: #008080; }
+    .property-title { color: #800080; }
+    .constructor-title { color: #008000; }
+    .method-title { color: #000080; }
+    h2, h3 { margin: 0; padding: 10px 0; }
+    .section { margin-bottom: 20px; }
+</style>
+</head>
+<body>
+<h1 class='main-title'>Scythe documentation</h1>
+<h2 class='class-name'>DiceRollController</h2>
+<h3 class='property-title'>Properties</h3>
+<p>private Button redPlayerRollDiceButton<br></p>
+<p>private Label redPlayerResult<br></p>
+<p>private Button bluePlayerRollDiceButton<br></p>
+<p>private Label bluePlayerResult<br></p>
+<p>private Label gameResult<br></p>
+<p>private Random random<br></p>
+</div><h3 class='constructor-title'>Constructors</h3>
+<p>public DiceRollController()</p>
+</div>
+<h3 class='method-title'>Methods</h3>
+<p>public int getBluePlayerRoll()</p><p>public int getRedPlayerRoll()</p><p>public void rollRedDice()</p><p>public void rollBlueDice()</p></div><h2 class='class-name'>ScytheController</h2>
+<h3 class='property-title'>Properties</h3>
+<p>private BorderPane borderPane<br></p>
+<p>private GridPane gameBoard<br></p>
+<p>private GridPane allPlayersGrid<br></p>
+<p>private Soldier selectedSoldier<br></p>
+<p>private Soldier lastSoldierMoved<br></p>
+<p>private final PlayerService playerService<br></p>
+<p>private final WindowUtil windowUtil<br></p>
+<p>private final ResourceService resourceService<br></p>
+<p>private BoardService boardService<br></p>
+<p>private BattleService battleService<br></p>
+<p>private Player currentPlayer<br></p>
+<p>private int movesMade<br></p>
+<p>private int totalTurns<br></p>
+<p>private static final int MAX_TURNS<br></p>
+<p>private boolean gameEnded<br></p>
+<p>private Set soldiersMoved<br></p>
+<p>Set soldiersAttacked<br></p>
+<p>private Player redPlayer<br></p>
+<p>private Player bluePlayer<br></p>
+<p>private Color currentPlayerTurn<br></p>
+<p>private int numberOfMoves<br></p>
+</div><h3 class='constructor-title'>Constructors</h3>
+<p>public ScytheController()</p>
+</div>
+<h3 class='method-title'>Methods</h3>
+<p>public void initialize()</p><p>private void saveGame()</p><p>private void handleExit()</p><p>private void loadGame()</p><p>public void generateHtmlDocumentation()</p><p>private void handleNewGame()</p><p>private void switchPlayer()</p><p>private void handleTileClick(int x, int y)</p></div><h2 class='class-name'>GameState</h2>
+<h3 class='property-title'>Properties</h3>
+<p>private static final long serialVersionUID<br></p>
+<p>private Color currentPlayerTurn<br></p>
+<p>private Player redPlayer<br></p>
+<p>private Player bluePlayer<br></p>
+<p>private int numberOfMoves<br></p>
+</div><h3 class='constructor-title'>Constructors</h3>
+<p>public GameState(Color currentPlayerTurn, Player redPlayer, Player bluePlayer, int numberOfMoves)</p>
+</div>
+<h3 class='method-title'>Methods</h3>
+<p>public void setCurrentPlayerTurn(Color currentPlayerTurn)</p><p>public Color getCurrentPlayerTurn()</p><p>public Player getBluePlayer()</p><p>public Player getRedPlayer()</p><p>public int getNumberOfMoves()</p><p>public void setNumberOfMoves(int numberOfMoves)</p><p>public void setRedPlayer(Player redPlayer)</p><p>public void setBluePlayer(Player bluePlayer)</p></div><h2 class='class-name'>Color</h2>
+<h3 class='property-title'>Properties</h3>
+<p>public static final Color RED<br></p>
+<p>public static final Color BLUE<br></p>
+<p>private static final Color[] $VALUES<br></p>
+</div><h3 class='constructor-title'>Constructors</h3>
+<p>private Color(String $enum$name, int $enum$ordinal)</p>
+</div>
+<h3 class='method-title'>Methods</h3>
+<p>public static Color[] values()</p><p>public static Color valueOf(String name)</p><p>private static Color[] $values()</p></div><h2 class='class-name'>Player</h2>
+<h3 class='property-title'>Properties</h3>
+<p>private static final long serialVersionUID<br></p>
+<p>private Color color<br></p>
+<p>private final Soldier[] soldiers<br></p>
+</div><h3 class='constructor-title'>Constructors</h3>
+<p>public Player(Color color)</p>
+</div>
+<h3 class='method-title'>Methods</h3>
+<p>public Color getColor()</p><p>public Soldier getSoldier(int index)</p><p>public void resetAllSoldierResources()</p><p>public void gatherResourcesFromTile(Soldier soldier, Tile tile)</p><p>private int gatherRandomResources(int min, int max)</p><p>public void setSoldierPosition(int index, int x, int y)</p><p>public List getSoldiers()</p><p>public int totalResources()</p></div><h2 class='class-name'>ResourceType</h2>
+<h3 class='property-title'>Properties</h3>
+<p>public static final ResourceType WOOD<br></p>
+<p>public static final ResourceType METAL<br></p>
+<p>public static final ResourceType FOOD<br></p>
+<p>private static final ResourceType[] $VALUES<br></p>
+</div><h3 class='constructor-title'>Constructors</h3>
+<p>private ResourceType(String $enum$name, int $enum$ordinal)</p>
+</div>
+<h3 class='method-title'>Methods</h3>
+<p>public static ResourceType[] values()</p><p>public static ResourceType valueOf(String name)</p><p>private static ResourceType[] $values()</p></div><h2 class='class-name'>Resource</h2>
+<h3 class='property-title'>Properties</h3>
+<p>private ResourceType resourceType<br></p>
+</div><h3 class='constructor-title'>Constructors</h3>
+<p>public Resource(ResourceType resourceType)</p>
+</div>
+<h3 class='method-title'>Methods</h3>
+<p>public ResourceType getResourceType()</p><p>public void setResourceType(ResourceType resourceType)</p></div><h2 class='class-name'>Soldier</h2>
+<h3 class='property-title'>Properties</h3>
+<p>private static final long serialVersionUID<br></p>
+<p>private Image image<br></p>
+<p>private String imagePath<br></p>
+<p>private int x<br></p>
+<p>private int y<br></p>
+<p>private int wood<br></p>
+<p>private int metal<br></p>
+<p>private int food<br></p>
+<p>private final Color color<br></p>
+</div><h3 class='constructor-title'>Constructors</h3>
+<p>public Soldier(Color color, int index, int x, int y)</p>
+</div>
+<h3 class='method-title'>Methods</h3>
+<p>public Color getColor()</p><p>public int getX()</p><p>public int getY()</p><p>public Image getImage()</p><p>public void setX(int x)</p><p>public void setY(int y)</p><p>public boolean equals(Object o)</p><p>public int hashCode()</p><p>public boolean isAt(int x, int y)</p><p>public void setWood(int wood)</p><p>public int getMetal()</p><p>public void addMetal(int amount)</p><p>public void addFood(int amount)</p><p>public void addWood(int amount)</p><p>public int getWood()</p><p>public void setFood(int food)</p><p>public void setMetal(int metal)</p><p>public int getFood()</p><p>public void resetResources()</p><p>private Image loadImageFromPath(String imagePath)</p></div><h2 class='class-name'>Type</h2>
+<h3 class='property-title'>Properties</h3>
+<p>public static final Type VILLAGE<br></p>
+<p>public static final Type FOREST<br></p>
+<p>public static final Type MOUNTAIN<br></p>
+<p>private final String imagePath<br></p>
+<p>private Image image<br></p>
+<p>private static final Type[] $VALUES<br></p>
+</div><h3 class='constructor-title'>Constructors</h3>
+<p>private Type(String $enum$name, int $enum$ordinal, String imagePath)</p>
+</div>
+<h3 class='method-title'>Methods</h3>
+<p>public Image getImage()</p><p>public static Type[] values()</p><p>public static Type valueOf(String name)</p><p>private static Type[] $values()</p></div><h2 class='class-name'>Tile</h2>
+<h3 class='property-title'>Properties</h3>
+<p>private final Type type<br></p>
+</div><h3 class='constructor-title'>Constructors</h3>
+<p>public Tile(Type type)</p>
+</div>
+<h3 class='method-title'>Methods</h3>
+<p>public Image getImage()</p><p>public Type getType()</p></div><h2 class='class-name'>ScytheApplication</h2>
+<h3 class='property-title'>Properties</h3>
+<p>private static final String CSS_PATH<br></p>
+</div><h3 class='constructor-title'>Constructors</h3>
+<p>public ScytheApplication()</p>
+</div>
+<h3 class='method-title'>Methods</h3>
+<p>public static void main(String[] args)</p><p>public void start(Stage stage)</p></div><h2 class='class-name'>BattleService</h2>
+<h3 class='property-title'>Properties</h3>
+<p>private PlayerService playerService<br></p>
+<p>private WindowUtil windowUtil<br></p>
+<p>private ResourceService resourceService<br></p>
+</div><h3 class='constructor-title'>Constructors</h3>
+<p>public BattleService(PlayerService playerService, WindowUtil windowUtil, ResourceService resourceService)</p>
+</div>
+<h3 class='method-title'>Methods</h3>
+<p>public boolean initiateAttack(Soldier attacker, Player currentPlayer, int toX, int toY, int originalX, int originalY)</p></div><h2 class='class-name'>BoardService</h2>
+<h3 class='property-title'>Properties</h3>
+<p>private static final ImageView[][] boardImages<br></p>
+<p>private static GridPane gameBoard<br></p>
+<p>private static TileClickHandler tileClickHandler<br></p>
+<p>private Player playerRed<br></p>
+<p>private Player playerBlue<br></p>
+</div><h3 class='constructor-title'>Constructors</h3>
+<p>public BoardService(GridPane gameBoard, TileClickHandler tileClickHandler, Player playerRed, Player playerBlue)</p>
+<p>public BoardService()</p>
+</div>
+<h3 class='method-title'>Methods</h3>
+<p>public static Tile getTile(int i, int j)</p><p>public void setupBoard()</p><p>private static void lambda$placePlayerSoldiers$0(int arg0, int arg1, MouseEvent arg2)</p><p>public static void clearSoldiersFromBoard()</p><p>private void placePlayerSoldiers(Player player)</p><p>public void placeSoldiersOnBoard()</p><p>private static void lambda$setupBoard$1(int arg0, int arg1, MouseEvent arg2)</p><p>private boolean isValidPosition(int x, int y)</p><p>public void updateBoard()</p><p>public void updatePlayers(Player redPlayer, Player bluePlayer)</p><p>private void setImageForSoldier(int i, int j, Player player)</p><p>private Tile getTileByIndex(int i, int j)</p></div><h2 class='class-name'>Constants</h2>
+<h3 class='property-title'>Properties</h3>
+<p>public static final int BOARD_SIZE<br></p>
+<p>public static final int[][] RED_SOLDIER_START_POSITIONS<br></p>
+<p>public static final int[][] BLUE_SOLDIER_START_POSITIONS<br></p>
+<p>public static final int TILE_WIDTH<br></p>
+<p>public static final int TILE_HEIGHT<br></p>
+<p>public static final int IMAGE_WIDTH<br></p>
+<p>public static final int IMAGE_HEIGHT<br></p>
+<p>public static final int ICON_SIZE<br></p>
+<p>public static final int MARGIN<br></p>
+<p>public static final String DICE_ROLL_PATH<br></p>
+<p>public static final String PLAYER_IMAGE_PATH_FORMAT<br></p>
+<p>public static final String VILLAGE_IMAGE_PATH<br></p>
+<p>public static final String FOREST_IMAGE_PATH<br></p>
+<p>public static final String MOUNTAIN_IMAGE_PATH<br></p>
+<p>public static final String FOOD_ICON_PATH<br></p>
+<p>public static final String WOOD_ICON_PATH<br></p>
+<p>public static final String METAL_ICON_PATH<br></p>
+<p>public static final String BATTLE_IMAGE_PATH<br></p>
+</div><h3 class='constructor-title'>Constructors</h3>
+<p>public Constants()</p>
+</div>
+<h3 class='method-title'>Methods</h3>
+</div><h2 class='class-name'>DialogUtils</h2>
+<h3 class='property-title'>Properties</h3>
+</div><h3 class='constructor-title'>Constructors</h3>
+<p>public DialogUtils()</p>
+</div>
+<h3 class='method-title'>Methods</h3>
+<p>public static void showDialog(AlertType alertType, String title, String message)</p></div><h2 class='class-name'>DocumentationUtils</h2>
+<h3 class='property-title'>Properties</h3>
+</div><h3 class='constructor-title'>Constructors</h3>
+<p>public DocumentationUtils()</p>
+</div>
+<h3 class='method-title'>Methods</h3>
+<p>public static void generateHtmlDocumentationFile()</p><p>private static boolean lambda$generateHtmlDocumentationFile$1(String arg0)</p><p>private static boolean lambda$generateHtmlDocumentationFile$0(String arg0)</p></div><h2 class='class-name'>FileUtils</h2>
+<h3 class='property-title'>Properties</h3>
+<p>public static final String GAME_SAVE_FILE_NAME<br></p>
+</div><h3 class='constructor-title'>Constructors</h3>
+<p>public FileUtils()</p>
+</div>
+<h3 class='method-title'>Methods</h3>
+<p>public static void saveGame(Color currentPlayerTurn, Player redPlayer, Player bluePlayer, int numberOfMoves)</p><p>public static GameState loadGame()</p></div><h2 class='class-name'>GameLogic</h2>
+<h3 class='property-title'>Properties</h3>
+</div><h3 class='constructor-title'>Constructors</h3>
+<p>public GameLogic()</p>
+</div>
+<h3 class='method-title'>Methods</h3>
+<p>public static boolean isAdjacent(Soldier soldier, int x, int y)</p><p>public static void endGame(PlayerService playerService, GridPane allPlayersGrid)</p><p>public static void handleBattle(Soldier selectedSoldier, Player currentPlayer, int x, int y, PlayerService playerService, BattleService battleService, Set soldiersMoved, GridPane allPlayersGrid)</p><p>public static boolean isValidMove(int x, int y, int boardSize)</p></div><h2 class='class-name'>MessageService</h2>
+<h3 class='property-title'>Properties</h3>
+</div><h3 class='constructor-title'>Constructors</h3>
+<p>public MessageService()</p>
+</div>
+<h3 class='method-title'>Methods</h3>
+<p>public static void displayEndGameMessage(Player winner, int redResources, int blueResources)</p></div><h2 class='class-name'>PlayerService</h2>
+<h3 class='property-title'>Properties</h3>
+<p>private static Player playerRed<br></p>
+<p>private static Player playerBlue<br></p>
+<p>private BoardService boardService<br></p>
+</div><h3 class='constructor-title'>Constructors</h3>
+<p>public PlayerService(BoardService boardService)</p>
+<p>public PlayerService()</p>
+</div>
+<h3 class='method-title'>Methods</h3>
+<p>public static void returnAttackerToOriginalPosition(Soldier attacker, int originalX, int originalY)</p><p>public static void returnSoldierToOriginalPosition(Soldier soldier, int originalX, int originalY)</p><p>private void setSoldierPositions(Player player, int[][] positions)</p><p>public boolean isTileOccupiedByOpponent(Player currentPlayer, int x, int y)</p><p>public static void moveSelectedSoldierTo(Soldier selectedSoldier, int x, int y, ResourceService resourceService, GridPane allPlayersGrid)</p><p>public boolean isTileOccupiedBySameColor(Player currentPlayer, int x, int y)</p><p>public void initializePlayers()</p><p>public static Player getPlayerRed()</p><p>public static Player getPlayerBlue()</p><p>public Soldier getSelectedSoldier(int x, int y, Soldier lastSoldierMoved)</p><p>public void setPlayersOnBoard()</p><p>public void updatePlayers(Player updatedPlayerRed, Player updatedPlayerBlue)</p></div><h2 class='class-name'>ResourceDisplay</h2>
+<h3 class='property-title'>Properties</h3>
+</div><h3 class='constructor-title'>Constructors</h3>
+<p>public ResourceDisplay()</p>
+</div>
+<h3 class='method-title'>Methods</h3>
+<p>public static void updateAllPlayerInfo(List players, GridPane allPlayersGrid)</p><p>public static HBox createResourceBox(Soldier soldier)</p><p>private static ImageView createSoldierImage(Soldier soldier)</p><p>private static HBox createResourceIconBox(String iconPath, int value, double iconSize)</p></div><h2 class='class-name'></h2>
+<h3 class='property-title'>Properties</h3>
+<p>static final int[] $SwitchMap$hr$algebra$scythe$model$Tile$Type<br></p>
+</div><h3 class='constructor-title'>Constructors</h3>
+</div>
+<h3 class='method-title'>Methods</h3>
+</div><h2 class='class-name'>ResourceService</h2>
+<h3 class='property-title'>Properties</h3>
+</div><h3 class='constructor-title'>Constructors</h3>
+<p>public ResourceService()</p>
+</div>
+<h3 class='method-title'>Methods</h3>
+<p>public void gatherResourcesFromTile(Soldier soldier, Tile tile)</p><p>public static int gatherRandomResources(int min, int max)</p><p>public static void transferResources(Soldier attacker, Soldier defender)</p></div><h2 class='class-name'>TileClickHandler</h2>
+<h3 class='property-title'>Properties</h3>
+</div><h3 class='constructor-title'>Constructors</h3>
+</div>
+<h3 class='method-title'>Methods</h3>
+<p>public abstract void handle(int x, int y)</p></div><h2 class='class-name'>WindowUtil</h2>
+<h3 class='property-title'>Properties</h3>
+</div><h3 class='constructor-title'>Constructors</h3>
+<p>public WindowUtil()</p>
+</div>
+<h3 class='method-title'>Methods</h3>
+<p>public int[] openDiceRollWindow()</p></div></body>
+</html>
